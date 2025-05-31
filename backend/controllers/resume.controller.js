@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import Resume from '../models/resume.model.js';
 
 //@desc     Create a Resume
 //@route    POST /api/v1/resumes
