@@ -89,10 +89,10 @@ app.get('/', (req, res) => {
 });
 // Auth routes (login, register, etc.)
 // Apply rate limiter only to auth routes
-// app.use('/api/v1/auth', authLimiter, authRoutes);
+app.use('/api/v1/auth', authLimiter, authRoutes);
 
 // Resume builder routes (CRUD)
-// app.use('/api/v1/resumes', resumeRoutes);
+app.use('/api/v1/resumes', resumeRoutes);
 
 // =======================
 // SERVER INIT
