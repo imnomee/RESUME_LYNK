@@ -17,11 +17,11 @@ import morgan from 'morgan'; // Logs HTTP requests
 import rateLimit from 'express-rate-limit'; // 🛡️ Rate limiting
 
 // MongoDB connection utility
-// import { connectDB } from './config/db.js';
+import { connectDB } from './config/db.js';
 
 // Route imports
-// import authRoutes from './routes/auth.route.js';
-// import resumeRoutes from './routes/resume.route.js';
+import authRoutes from './routes/auth.route.js';
+import resumeRoutes from './routes/resume.route.js';
 
 // =======================
 // INITIALIZE APP
@@ -103,7 +103,7 @@ const PORT = process.env.PORT || 5000;
 // Start server function
 const startServer = async () => {
     try {
-        // await connectDB(); // Connect to the database
+        await connectDB(); // Connect to the database
         app.listen(PORT, () => {
             console.log(`Server: Running on http://localhost:${PORT}`);
         });
