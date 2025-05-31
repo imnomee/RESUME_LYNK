@@ -139,20 +139,20 @@ export const deleteResume = async (req, res) => {
             return res.status(404).json({ message: 'Resume Not FOund.' });
         }
         // Delete the profile image if it exists
-        if (resume.profileInfo.profileImg) {
-            const imagePath = path.join(
-                __dirname,
-                '../uploads',
-                resume.profileInfo.profileImg
-            );
-            fs.unlink(imagePath, (err) => {
-                if (err) {
-                    console.error('Error deleting image:', err);
-                } else {
-                    console.log('Image deleted successfully');
-                }
-            });
-        }
+        // if (resume.profileInfo.profileImg) {
+        //     const imagePath = path.join(
+        //         __dirname,
+        //         '../uploads',
+        //         resume.profileInfo.profileImg
+        //     );
+        //     fs.unlink(imagePath, (err) => {
+        //         if (err) {
+        //             console.error('Error deleting image:', err);
+        //         } else {
+        //             console.log('Image deleted successfully');
+        //         }
+        //     });
+        // }
         const deleted = await Resume.findOneAndDelete({
             _id: req.params.resumeId,
             userId: req.user._id,

@@ -16,8 +16,6 @@ import { validateObjectId } from '../middlewares/validate.middlware.js';
 
 // Middleware for route protection
 import { protect } from '../middlewares/auth.middleware.js';
-// Controller for uploading images tied to resumes
-import { uploadResumeImages } from '../controllers/uploadImages.controller.js';
 
 // Initialize router
 const router = express.Router();
@@ -61,12 +59,5 @@ router.delete(
     validateObjectId('resumeId'),
     deleteResume
 );
-
-/**
- * @route   PUT /api/v1/resumes/:resumeId/upload-images
- * @desc    Upload images for a specific resume
- * @access  Private
- */
-router.put('/:resumeId/upload-images', protect, uploadResumeImages);
 
 export default router;
