@@ -29,11 +29,6 @@ const UserSchema = new Schema(
             minlength: 6,
             // Note: hash passwords before saving (do not store plain passwords)
         },
-        profileImageUrl: {
-            type: String,
-            default: null, // or set a default placeholder URL here
-            trim: true,
-        },
     },
     {
         timestamps: true, // auto-manage createdAt and updatedAt

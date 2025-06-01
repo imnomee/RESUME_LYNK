@@ -7,22 +7,58 @@ import { UserContext } from '../context/userContext';
 import ProfileCard from '../components/Cards/ProfileCard';
 import { useNavigate } from 'react-router-dom';
 
+// Delay in ms for modal open animation and loading state
+const MODAL_DELAY = 400;
+
 const LandingPage = () => {
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
+
+    // Track modal visibility and which auth form to show
     const [openAuthModal, setOpenAuthModal] = useState(false);
     const [currentPage, setCurrentPage] = useState('login');
+
+    // Show loading while navigation or modal is opening
+    const [loading, setLoading] = useState(false);
+
+    /**
+     * Handles the CTA click from hero section.
+     * Navigates to dashboard if logged in; otherwise opens signup modal.
+     */
     const handleCTA = () => {
+        if (loading) return;
+        setLoading(true);
+
         if (!user) {
-            setOpenAuthModal(true);
-            setCurrentPage('signup');
+            setTimeout(() => {
+                setOpenAuthModal(true);
+                setCurrentPage('signup');
+                setLoading(false);
+            }, MODAL_DELAY);
         } else {
             navigate('/dashboard');
         }
     };
+
+    /**
+     * Handles Login / Sign Up button in the header.
+     * Always shows login modal.
+     */
+    const handleAuthClick = () => {
+        if (loading) return;
+        setLoading(true);
+
+        setTimeout(() => {
+            setOpenAuthModal(true);
+            setCurrentPage('login');
+            setLoading(false);
+        }, MODAL_DELAY);
+    };
+
     return (
         <div className="w-full min-h-full bg-white">
             <div className="mx-auto px-4 py-6">
+                {/* Header with branding and user login control */}
                 <header className="flex justify-between items-center mb-8">
                     <div className="text-xl font-bold">Resume Builder</div>
 
@@ -30,12 +66,16 @@ const LandingPage = () => {
                         <ProfileCard />
                     ) : (
                         <button
-                            className="bg-purple-100 text-sm font-semibold text-black px-7 py-2.5 rounded-lg hover:bg-gray-800 hover:text-white transition-colors cursor-pointer"
-                            onClick={() => setOpenAuthModal(true)}>
-                            Login / Sign Up
+                            onClick={handleAuthClick}
+                            disabled={loading}
+                            className="bg-purple-100 text-sm font-semibold text-black px-7 py-2.5 rounded-lg hover:bg-gray-800 hover:text-white transition-colors cursor-pointer disabled:opacity-50"
+                            aria-label="Login or Sign Up">
+                            {loading ? 'Opening...' : 'Login / Sign Up'}
                         </button>
                     )}
                 </header>
+
+                {/* Hero Section */}
                 <div className="flex flex-col md:flex-row items-center">
                     <div className="w-full md:w-1/2 pr-4 mb-8 md:mb-0">
                         <h1 className="text-5xl font-extrabold mb-6 leading-tight">
@@ -49,62 +89,68 @@ const LandingPage = () => {
                             and intuitive resume builder.
                         </p>
                         <button
-                            className="bg-black text-sm font-semibold text-white px-8 py-3 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer"
-                            onClick={handleCTA}>
-                            Get Started
+                            onClick={handleCTA}
+                            disabled={loading}
+                            className="bg-black text-sm font-semibold text-white px-8 py-3 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer disabled:opacity-50"
+                            aria-label="Get Started with Resume Builder">
+                            {loading ? 'Please wait...' : 'Get Started'}
                         </button>
                     </div>
+
+                    {/* Hero Image */}
                     <div className="w-full md:w-1/2">
                         <img
                             src={HERO_IMG}
-                            alt="Hero Image"
+                            alt="Illustration of a resume-building process"
                             className="w-full rounded-lg"
                         />
                     </div>
                 </div>
-                <section className=" mt-5">
+
+                {/* Features Section */}
+                <section className="mt-5">
                     <h2 className="text-3xl font-extrabold text-gray-800 text-center mb-8">
                         Features That Make You Shine
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div className="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition">
-                            <h3 className="text-lg font-semibold mb-3">
-                                Easy Editing
-                            </h3>
-                            <p className="text-gray-600">
-                                Update your resume sections with live preview
-                                and instant formatting.
-                            </p>
-                        </div>
-                        <div className="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition">
-                            <h3 className="text-lg font-semibold mb-3">
-                                Beautiful Templates
-                            </h3>
-                            <p className="text-gray-600">
-                                Choose from modern, professional templates that
-                                are easy to customize.
-                            </p>
-                        </div>
-                        <div className="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition">
-                            <h3 className="text-lg font-semibold mb-3">
-                                One-Click Export
-                            </h3>
-                            <p className="text-gray-600">
-                                Download your resume instantly as a high-quality
-                                PDF with one click.
-                            </p>
-                        </div>
+                        {[
+                            {
+                                title: 'Easy Editing',
+                                desc: 'Update your resume sections with live preview and instant formatting.',
+                            },
+                            {
+                                title: 'Beautiful Templates',
+                                desc: 'Choose from modern, professional templates that are easy to customize.',
+                            },
+                            {
+                                title: 'One-Click Export',
+                                desc: 'Download your resume instantly as a high-quality PDF with one click.',
+                            },
+                        ].map((feature, index) => (
+                            <div
+                                key={index}
+                                className="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                                <h3 className="text-lg font-semibold mb-3">
+                                    {feature.title}
+                                </h3>
+                                <p className="text-gray-600">{feature.desc}</p>
+                            </div>
+                        ))}
                     </div>
                 </section>
             </div>
+
+            {/* Footer */}
             <div className="text-sm bg-gray-50 text-secondary text-center p-5 mt-5">
                 Made with ❤️... Happy Resuming
             </div>
+
+            {/* Modal for Auth */}
             <Modal
                 isOpen={openAuthModal}
                 onClose={() => {
                     setOpenAuthModal(false);
-                    setCurrentPage('login');
+                    setCurrentPage('login'); // Reset to login view on close
                 }}
                 hideHeader>
                 <div>

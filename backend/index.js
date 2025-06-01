@@ -67,7 +67,7 @@ app.use(morgan('dev'));
 // Rate limiter — limit repeated requests to auth endpoints
 const authLimiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutes
-    max: 10, // Limit each IP to 10 requests per windowMs
+    max: 100, // Limit each IP to 10 requests per windowMs
     message: {
         message:
             'Too many requests from this IP, please try again after 10 minutes',
