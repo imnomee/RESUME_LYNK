@@ -49,7 +49,7 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
                 transform: containerWidth > 0 ? `scale(${scale})` : 'none',
                 transformOrigin: 'top left',
                 width: containerWidth > 0 ? `${containerWidth}px` : '800px',
-                height: 'auto',
+                height: '800px',
             }}>
             <div className="grid grid-cols-12 gap-8">
                 <div

@@ -24,11 +24,6 @@ import AdditionalInfoForm from './AdditionalInfoForm';
 import RenderResume from '../../components/ResumeTemplates/RenderResume';
 import newResume from '../../utils/newResume';
 import TitleInput from '../../components/inputs/TitleInput';
-import {
-    captureElementAsImage,
-    dataURLtoFile,
-    fixTailwindColors,
-} from '../../utils/helper';
 import StepProgress from '../../components/StepProgress';
 import ThemeSelector from './ThemeSelector';
 import Modal from '../../components/Modal';
@@ -436,67 +431,63 @@ const EditResume = () => {
             };
         });
     };
-    const uploadResumeImages = async () => {
+    // const uploadResumeImages = async () => {
+    //     try {
+    //         setIsLoading(true);
+    //         fixTailwindColors(resumeRef.current);
+    //         const imageDataUrl = await captureElementAsImage(resumeRef.current);
+    //         const thumbnailFile = dataURLtoFile(
+    //             imageDataUrl,
+    //             `resume-${resumeId}.png`
+    //         );
+    //         console.log('thumbnailFile', thumbnailFile);
+    //         const formData = new FormData();
+    //         let profileImage = resumeData?.profileInfo?.profileImg || null;
+    //         if (
+    //             profileImage &&
+    //             typeof profileImage === 'string' &&
+    //             profileImage.startsWith('data:')
+    //         ) {
+    //             profileImage = dataURLtoFile(profileImage, 'profile.png');
+    //         }
+    //         if (profileImage) formData.append('profileImage', profileImage);
+    //         if (thumbnailFile) formData.append('thumbnail', thumbnailFile);
+    //         console.log(resumeId);
+    //         const uploadResponse = await axiosInstance.put(
+    //             API_PATHS.RESUME.UPLOAD_IMAGES(resumeId),
+    //             formData,
+    //             {
+    //                 headers: {
+    //                     'Content-Type': 'multipart/form-data',
+    //                 },
+    //             }
+    //         );
+
+    //         const { thumbnailLink, profilePreviewUrl } = uploadResponse.data;
+    //         console.log('resume_data', resumeData);
+    //         await updateResumeDetails(thumbnailLink, profilePreviewUrl);
+    //         toast.success('Resume Updated Success');
+    //         navigate('/dashboard');
+    //     } catch (error) {
+    //         console.error(error);
+    //         toast.error('Faile dto upload images');
+    //     } finally {
+    //         setIsLoading(false);
+    //     }
+    // };
+    const updateResumeDetails = async () => {
         try {
             setIsLoading(true);
-            fixTailwindColors(resumeRef.current);
-            const imageDataUrl = await captureElementAsImage(resumeRef.current);
-            const thumbnailFile = dataURLtoFile(
-                imageDataUrl,
-                `resume-${resumeId}.png`
-            );
-            console.log('thumbnailFile', thumbnailFile);
-            const formData = new FormData();
-            let profileImage = resumeData?.profileInfo?.profileImg || null;
-            if (
-                profileImage &&
-                typeof profileImage === 'string' &&
-                profileImage.startsWith('data:')
-            ) {
-                profileImage = dataURLtoFile(profileImage, 'profile.png');
-            }
-            if (profileImage) formData.append('profileImage', profileImage);
-            if (thumbnailFile) formData.append('thumbnail', thumbnailFile);
-            console.log(resumeId);
-            const uploadResponse = await axiosInstance.put(
-                API_PATHS.RESUME.UPLOAD_IMAGES(resumeId),
-                formData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                }
-            );
 
-            const { thumbnailLink, profilePreviewUrl } = uploadResponse.data;
-            console.log('resume_data', resumeData);
-            await updateResumeDetails(thumbnailLink, profilePreviewUrl);
-            toast.success('Resume Updated Success');
+            // Send updated resume data without images
+            await axiosInstance.put(API_PATHS.RESUME.UPDATE(resumeId), {
+                ...resumeData,
+            });
+            toast.success('Resume saved successfully');
             navigate('/dashboard');
         } catch (error) {
-            console.error(error);
-            toast.error('Faile dto upload images');
-        } finally {
-            setIsLoading(false);
-        }
-    };
-    const updateResumeDetails = async (thumbnailLink, profilePreviewUrl) => {
-        try {
-            setIsLoading(true);
-            const response = await axiosInstance.put(
-                API_PATHS.RESUME.UPDATE(resumeId),
-                {
-                    ...resumeData,
-                    thumbnailLink: thumbnailLink || '',
-                    profileInfo: {
-                        ...resumeData.profileInfo,
-                        profilePreviewUrl: profilePreviewUrl || '',
-                    },
-                }
-            );
-        } catch (error) {
-            console.error(error);
-            toast.error(error);
+            console.error('Failed to save resume:', error);
+            toast.error('Failed to save resume. Please try again.');
         } finally {
             setIsLoading(false);
         }
@@ -504,9 +495,7 @@ const EditResume = () => {
     const handleDeleteResume = async () => {
         try {
             setIsLoading(true);
-            const response = await axiosInstance.delete(
-                API_PATHS.RESUME.DELETE(resumeId)
-            );
+            await axiosInstance.delete(API_PATHS.RESUME.DELETE(resumeId));
             toast.success('Resume Deleted Success');
             navigate('/dashboard');
         } catch (error) {
@@ -629,7 +618,7 @@ const EditResume = () => {
                                 </button>
                                 <button
                                     className="btn-small-light"
-                                    onClick={uploadResumeImages}
+                                    onClick={updateResumeDetails}
                                     disabled={isLoading}>
                                     <LuSave className="text-[16px]" />
                                     {isLoading ? 'Updating...' : 'Save & Exit'}
@@ -693,7 +682,7 @@ const EditResume = () => {
                 <div className="" ref={resumeDownloadRef}>
                     <RenderResume
                         templateId={
-                            resumeData?.template?.theme || 'w-[98vw] h-[90vh]'
+                            resumeData?.template?.theme || 'w-[50vw] h-[40vh]'
                         }
                         resumeData={resumeData}
                         colorPalette={resumeData?.template?.colorPalette || []}
