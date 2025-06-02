@@ -28,10 +28,13 @@ import StepProgress from '../../components/StepProgress';
 import ThemeSelector from './ThemeSelector';
 import Modal from '../../components/Modal';
 
+import html2pdf from 'html2pdf.js'; // Assuming you installed it
+
 //Resume Stepper
 import { useResumeStepper } from '../../hooks/useResumeStepper';
 //Resume Section Validation
 import { validateResumeSection } from '../../utils/validateResumeSection';
+import { fixTailwindColors } from '../../utils/helper';
 
 const EditResume = () => {
     const navigate = useNavigate();
@@ -304,10 +307,66 @@ const EditResume = () => {
         }
     };
     const reactToPrintFn = useReactToPrint({
+        onPrintError: (error) => console.error('Printing error:', error),
+        removeAfterPrint: true,
         contentRef: resumeDownloadRef,
         documentTitle: 'Resume',
-        onAfterPrint: () => {},
+        print: async (printIframe) => {
+            const document = printIframe.contentDocument;
+            if (document) {
+                const htmlElement = document.getElementById('element-to-print');
+                fixTailwindColors(htmlElement);
+                if (htmlElement) {
+                    console.log('Element to convert:', htmlElement);
+                    const exporter = html2pdf()
+                        .from(htmlElement)
+                        .set({
+                            margin: 5,
+                            filename: 'Nota Simple.pdf',
+                            image: { type: 'jpeg', quality: 0.98 },
+                            html2canvas: {
+                                scale: 2,
+                                logging: true,
+                                useCORS: true,
+                            },
+                            jsPDF: {
+                                unit: 'mm',
+                                format: 'legal',
+                                orientation: 'portrait',
+                            },
+                        });
+
+                    try {
+                        await exporter.save(); // Use .save() to trigger download
+                        console.log(
+                            'PDF generated and downloaded successfully!'
+                        );
+                    } catch (pdfError) {
+                        console.error('Error generating PDF:', pdfError);
+                    }
+                } else {
+                    console.error(
+                        "Element with ID 'element-to-download-as-pdf' not found in the print content."
+                    );
+                }
+            } else {
+                console.error('Print iframe document not available.');
+            }
+        },
     });
+    useEffect(() => {
+        // This effect will run every time openPreviewModal changes
+        // and when the component mounts if openPreviewModal is initially true.
+        if (openPreviewModal && resumeDownloadRef.current) {
+            // Give React a moment to fully render the content
+            // before triggering the print function.
+            const timer = setTimeout(() => {
+                reactToPrintFn();
+            }, 100); // A small delay can help ensure the content is fully painted
+
+            return () => clearTimeout(timer); // Cleanup the timer if component unmounts
+        }
+    }, [openPreviewModal, reactToPrintFn]); // Dependencies: re-run when modal state or print function changes
 
     const fetchResumeDetailsById = async () => {
         try {
@@ -455,7 +514,7 @@ const EditResume = () => {
                 isOpen={openThemeSelector}
                 onClose={() => setOpenThemeSelector(false)}
                 title={'Change Theme'}>
-                <div className="w-[90vw] h-[30vw]">
+                <div className="w-[90vw] h-[30vh]">
                     <ThemeSelector
                         selectedTheme={resumeData?.template}
                         setSelectedTheme={(value) =>
@@ -477,7 +536,7 @@ const EditResume = () => {
                 actionBtnText={'Download'}
                 actionBtnIcon={<LuDownload className="text-[16px]" />}
                 onActionClick={() => reactToPrintFn()}>
-                <div className="" ref={resumeDownloadRef}>
+                <div className="" ref={resumeDownloadRef} id="element-to-print">
                     <RenderResume
                         templateId={
                             resumeData?.template?.theme || 'w-[50vw] h-[40vh]'
