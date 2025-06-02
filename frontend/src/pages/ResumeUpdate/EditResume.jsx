@@ -28,6 +28,11 @@ import StepProgress from '../../components/StepProgress';
 import ThemeSelector from './ThemeSelector';
 import Modal from '../../components/Modal';
 
+//Resume Stepper
+import { useResumeStepper } from '../../hooks/useResumeStepper';
+//Resume Section Validation
+import { validateResumeSection } from '../../utils/validateResumeSection';
+
 const EditResume = () => {
     const navigate = useNavigate();
     const { resumeId } = useParams();
@@ -41,175 +46,10 @@ const EditResume = () => {
     const [resumeData, setResumeData] = useState(newResume);
     const [errorMsg, setErrorMsg] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const validateAndNext = () => {
-        const errors = [];
-        switch (currentPage) {
-            case 'profile-info': {
-                const { fullName, designation, summary } =
-                    resumeData.profileInfo;
-                if (!fullName.trim()) {
-                    errors.push('Full Name is required');
-                }
-                if (!designation.trim()) {
-                    errors.push('Designation is required');
-                }
-                if (!summary.trim()) {
-                    errors.push('Summary is required');
-                }
-                break;
-            }
-            case 'contact-info': {
-                const { email, phone, location } = resumeData.contactInfo;
-                if (!email.trim()) {
-                    errors.push('Email is required');
-                }
-                if (!phone.trim()) {
-                    errors.push('Phone is required');
-                }
-                if (!location.trim()) {
-                    errors.push('Location is required');
-                }
-                break;
-            }
-            case 'work-experience':
-                resumeData.workExperience.forEach((item, index) => {
-                    const {
-                        companyName,
-                        role,
-                        startDate,
-                        endDate,
-                        description,
-                    } = item;
-                    if (!companyName.trim()) {
-                        errors.push(
-                            `Company is required in experience ${index + 1}`
-                        );
-                    }
-                    if (!role.trim()) {
-                        errors.push(
-                            `Role is required in experience ${index + 1}`
-                        );
-                    }
-                    if (!startDate.trim()) {
-                        errors.push(
-                            `Start Date is required in experience ${index + 1}`
-                        );
-                    }
-                    if (!endDate.trim()) {
-                        errors.push(
-                            `End Date is required in experience ${index + 1}`
-                        );
-                    }
-                    if (!description.trim()) {
-                        errors.push(
-                            `Description is required in experience ${index + 1}`
-                        );
-                    }
-                });
-                break;
-            case 'educational-info':
-                resumeData.education.forEach((item, index) => {
-                    const { degree, institutionName, startDate, endDate } =
-                        item;
-                    if (!degree.trim()) {
-                        errors.push(
-                            `Degree is required in education ${index + 1}`
-                        );
-                    }
-                    if (!institutionName.trim()) {
-                        errors.push(
-                            `Institution is required in education ${index + 1}`
-                        );
-                    }
-                    if (!startDate.trim()) {
-                        errors.push(
-                            `Start Date is required in education ${index + 1}`
-                        );
-                    }
-                    if (!endDate.trim()) {
-                        errors.push(
-                            `End Date is required in education ${index + 1}`
-                        );
-                    }
-                });
-                break;
-            case 'skills-info':
-                resumeData.skills.forEach((skill, index) => {
-                    const { skillName, progressLevel } = skill;
-                    if (!skillName.trim()) {
-                        errors.push(`Name is required in skill ${index + 1}`);
-                    }
-                    if (progressLevel < 1 || progressLevel > 100) {
-                        errors.push(
-                            `Progress must be betwen 1-100 in skill ${
-                                index + 1
-                            }`
-                        );
-                    }
-                });
-                break;
-            case 'projects':
-                resumeData.projects.forEach((item, index) => {
-                    const { projectName, description } = item;
-                    if (!projectName.trim()) {
-                        errors.push(
-                            `Title is required in project ${index + 1}`
-                        );
-                    }
-                    if (!description.trim()) {
-                        errors.push(
-                            `Description is required in project ${index + 1}`
-                        );
-                    }
-                });
-                break;
-            case 'certification':
-                resumeData.certifications.forEach((cert, index) => {
-                    const { title, issuer, year } = cert;
-                    if (!title.trim()) {
-                        errors.push(
-                            `Title is required in certification ${index + 1}`
-                        );
-                    }
-                    if (!issuer.trim()) {
-                        errors.push(
-                            `Issuer is required in certification ${index + 1}`
-                        );
-                    }
-                    if (!year.trim()) {
-                        errors.push(
-                            `Year is required in certification ${index + 1}`
-                        );
-                    }
-                });
-                break;
-            case 'additionalInfo':
-                resumeData.languages.forEach((lang, index) => {
-                    const { name, progressLevel } = lang;
-                    if (!name.trim()) {
-                        errors.push(
-                            `Language is required in skill ${index + 1}`
-                        );
-                    }
-                    if (progressLevel < 1 || progressLevel > 100) {
-                        errors.push(
-                            `Progress must be betwen 1-100 in skill ${
-                                index + 1
-                            }`
-                        );
-                    }
-                });
 
-                if (
-                    resumeData.interests.length === 0 ||
-                    !resumeData.interests[0].trim()
-                ) {
-                    errors.push('At least one interest is required');
-                }
-                break;
-            default:
-                break;
-        }
+    //Resume Section Validation
+    const validateAndNext = () => {
+        const errors = validateResumeSection(currentPage, resumeData);
         if (errors.length > 0) {
             setErrorMsg(errors.join(', '));
             return;
@@ -217,54 +57,12 @@ const EditResume = () => {
         setErrorMsg('');
         goToNextStep();
     };
-    const goToNextStep = () => {
-        const pages = [
-            'profile-info',
-            'contact-info',
-            'work-experience',
-            'educational-info',
-            'skills-info',
-            'projects',
-            'certification',
-            'additionalInfo',
-        ];
-        if (currentPage === 'additionalInfo') setOpenPreviewModaal(true);
-
-        const currentIndex = pages.indexOf(currentPage);
-        if (currentIndex !== -1 && currentIndex < pages.length - 1) {
-            const nextIndex = currentIndex + 1;
-            setCurrentPage(pages[nextIndex]);
-            const percent = Math.round((nextIndex / (pages.length - 1)) * 100);
-            setProgress(percent);
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth',
-            });
-        }
-    };
-    const goToPrevStep = () => {
-        const pages = [
-            'profile-info',
-            'contact-info',
-            'work-experience',
-            'educational-info',
-            'skills-info',
-            'projects',
-            'certification',
-            'additionalInfo',
-        ];
-        const currentIndex = pages.indexOf(currentPage);
-        if (currentIndex !== -1 && currentIndex > 0) {
-            const prevIndex = currentIndex - 1;
-            setCurrentPage(pages[prevIndex]);
-            const percent = Math.round((prevIndex / (pages.length - 1)) * 100);
-            setProgress(percent);
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth',
-            });
-        }
-    };
+    //Resume Stepper
+    const { goToNextStep, goToPrevStep } = useResumeStepper(
+        currentPage,
+        setCurrentPage,
+        setProgress
+    );
     const renderForm = () => {
         switch (currentPage) {
             case 'profile-info':
