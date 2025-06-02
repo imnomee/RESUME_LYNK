@@ -96,8 +96,8 @@ const WorkExperienceForm = ({
                                 </label>
                                 <textarea
                                     placeholder="What did you do in this role?"
-                                    className="text-input w-full mt-1"
-                                    rows={3}
+                                    className="text-input w-full mt-1 p-4"
+                                    rows={5}
                                     value={experience.description || ''}
                                     onChange={(e) =>
                                         updateArrayItem(

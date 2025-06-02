@@ -38,6 +38,7 @@ const Dashboard = () => {
                     (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
                 );
                 setAllResumes(sortedResumes);
+                console.log(sortedResumes);
             } else {
                 // No resumes available
                 setAllResumes([]);
