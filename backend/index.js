@@ -35,23 +35,23 @@ const app = express();
 
 // Configure CORS (Cross-Origin Resource Sharing)
 const allowedOrigins = [
+    'https://resume-lynk-oesa.vercel.app',
     'http://localhost:5173',
-    'https://mern-jobs-frontend.vercel.app',
-    'https://joblynk.site',
-]; // Allowed origins for frontend
+];
 
-// CORS setup - allow frontend to communicate with backend
 app.use(
     cors({
         origin: (origin, callback) => {
+            // Allow requests with no origin (e.g. mobile apps, curl, etc.)
             if (!origin || allowedOrigins.includes(origin)) {
                 callback(null, true);
             } else {
                 callback(new Error('Not allowed by CORS'));
             }
         },
-        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization'],
+        credentials: true,
     })
 );
 
@@ -67,7 +67,7 @@ app.use(morgan('dev'));
 // Rate limiter — limit repeated requests to auth endpoints
 const authLimiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutes
-    max: 100, // Limit each IP to 10 requests per windowMs
+    max: 10, // Limit each IP to 10 requests per windowMs
     message: {
         message:
             'Too many requests from this IP, please try again after 10 minutes',
