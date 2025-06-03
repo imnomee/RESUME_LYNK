@@ -3,22 +3,11 @@ import Input from '../../components/inputs/Input';
 
 const ContactInfoForm = ({ contactInfo, updateSection }) => {
     return (
-        <div className="px-5 pt-5">
-            <h2 className="text-lg font-semibold text-gray-900">
+        <div className="p-3 md:p-5">
+            <h2 className="text-base md:text-lg font-semibold text-gray-900">
                 Contact Information
             </h2>
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="col-span-2 ">
-                    <Input
-                        label="Address"
-                        placeHolder="Short Address"
-                        type="text"
-                        value={contactInfo.location || ''}
-                        onChange={(e) =>
-                            updateSection('location', e.target.value)
-                        }
-                    />
-                </div>
+            <div className="mt-4 flex flex-col gap-2">
                 <Input
                     label="Email"
                     placeHolder="nomeepk@gmail.com"
@@ -26,13 +15,30 @@ const ContactInfoForm = ({ contactInfo, updateSection }) => {
                     value={contactInfo.email || ''}
                     onChange={(e) => updateSection('email', e.target.value)}
                 />
-                <Input
-                    label="Phone Number"
-                    placeHolder="123456789"
-                    type="tel"
-                    value={contactInfo.phone || ''}
-                    onChange={(e) => updateSection('phone', e.target.value)}
-                />
+                <div className="flex flex-row gap-2">
+                    <div className="flex-3">
+                        <Input
+                            label="Location"
+                            placeHolder="Short Address"
+                            type="text"
+                            value={contactInfo.location || ''}
+                            onChange={(e) =>
+                                updateSection('location', e.target.value)
+                            }
+                        />
+                    </div>
+                    <div className="flex-2">
+                        <Input
+                            label="Phone Number"
+                            placeHolder="123456789"
+                            type="tel"
+                            value={contactInfo.phone || ''}
+                            onChange={(e) =>
+                                updateSection('phone', e.target.value)
+                            }
+                        />
+                    </div>
+                </div>
                 <Input
                     label="LinkedIn"
                     placeHolder="https://linkedin.com/in/imnomee"

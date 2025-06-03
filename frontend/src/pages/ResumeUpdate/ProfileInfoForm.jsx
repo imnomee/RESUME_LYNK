@@ -2,7 +2,7 @@ import Input from '../../components/inputs/Input';
 
 const ProfileInfoForm = ({ profileData, updateSection }) => {
     return (
-        <div className="px-5 pt-5">
+        <div className="p-3 md:p-5">
             {/* Section Heading */}
             <h2 className="text-base md:text-lg font-semibold text-gray-900">
                 Personal Information
@@ -10,7 +10,7 @@ const ProfileInfoForm = ({ profileData, updateSection }) => {
 
             {/* Form Fields */}
             <div className="mt-4">
-                <div className="flex flex-col lg:flex-row gap-3">
+                <div className="flex flex-col lg:flex-row gap-2">
                     {/* Full Name Field */}
                     <div className="flex-1">
                         <Input
