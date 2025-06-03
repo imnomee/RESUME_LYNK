@@ -391,7 +391,7 @@ const EditResume = () => {
                                     {errorMsg}
                                 </div>
                             )}
-                            <div className="flex items-end justify-end gap-3 mt-3 mb-5">
+                            <div className="flex items-end justify-center gap-3 my-4">
                                 <button
                                     className="btn-small-light"
                                     onClick={goToPrevStep}
