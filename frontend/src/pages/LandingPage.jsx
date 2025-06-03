@@ -153,8 +153,8 @@ const LandingPage = () => {
                     setCurrentPage('login'); // Reset to login view on close
                 }}
                 hideHeader
-                width="auto max-w-[30vw]"
-                height="auto max-h-[30vh]">
+                width="max-w-[30vw]"
+                height="max-h-[30vh]">
                 <div>
                     {currentPage === 'login' && (
                         <Login setCurrentPage={setCurrentPage} />

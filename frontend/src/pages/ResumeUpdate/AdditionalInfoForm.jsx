@@ -1,4 +1,3 @@
-import React from 'react';
 import Input from '../../components/inputs/Input';
 import { LuPlus, LuTrash2 } from 'react-icons/lu';
 import RatingInput from '../../components/ResumeSections/RatingInput';
