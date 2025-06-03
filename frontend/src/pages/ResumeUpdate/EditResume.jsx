@@ -380,7 +380,7 @@ const EditResume = () => {
                     handleDeleteResume={onDelete}
                     setOpenPreviewModaal={setOpenPreviewModaal}
                 />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                     <div className="bg-white rounded-lg border border-purple-100 overflow-hidden">
                         <StepProgress progress={progress} />
                         {renderForm()}
@@ -423,7 +423,7 @@ const EditResume = () => {
                             </div>
                         </div>
                     </div>
-                    <div ref={resumeRef} className="h-[100vh]">
+                    <div ref={resumeRef} className="hidden md:block h-[100vh]">
                         {/* Resume Template */}
                         <RenderResume
                             templateId={resumeData?.template?.theme || ''}
