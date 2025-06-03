@@ -35,7 +35,7 @@ const SkillsInfoForm = ({
                                     }
                                 />
                             </div>
-                            <div className=" flex flex-col items-center flex-1">
+                            <div className="flex flex-col items-center flex-1">
                                 <label className="text-xs md:text-sm text-gray-600">
                                     Proficiency ({skill.progressLevel / 20 || 0}
                                     /5)
