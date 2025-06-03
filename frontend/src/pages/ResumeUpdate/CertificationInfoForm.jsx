@@ -10,16 +10,16 @@ const CertificationInfoForm = ({
     removeArrayItem,
 }) => {
     return (
-        <div className="px-5 pt-5">
-            <h2 className="text-lg font-semibold text-gray-900">
+        <div className="p-3 md:p-5">
+            <h2 className="text-base md:text-lg font-semibold text-gray-900">
                 Certifications
             </h2>
-            <div className="mt-4 flex flex-col gap-4 mb-3">
+            <div className="my-2 flex flex-col gap-2">
                 {certificationInfo.map((cert, index) => (
                     <div
                         key={index}
-                        className="border border-gray-200/80 p-4 rounded-lg relative">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        className="border border-purple-400/90 p-2 rounded-lg relative md:p-4">
+                        <div className="flex flex-col gap-2">
                             <Input
                                 label={'Certification Title'}
                                 placeHolder={'Full Stack Web Developer'}
@@ -33,32 +33,38 @@ const CertificationInfoForm = ({
                                     )
                                 }
                             />
-                            <Input
-                                label="Issuer"
-                                placeHolder={'Coursera / Google /etc.'}
-                                type={'text'}
-                                value={cert.issuer}
-                                onChange={(e) =>
-                                    updateArrayItem(
-                                        index,
-                                        'issuer',
-                                        e.target.value
-                                    )
-                                }
-                            />
-                            <Input
-                                label="Year"
-                                placeholder="2024"
-                                type="text"
-                                value={cert.year || ''}
-                                onChange={(e) =>
-                                    updateArrayItem(
-                                        index,
-                                        'year',
-                                        e.target.value
-                                    )
-                                }
-                            />
+                            <div className="flex gap-2">
+                                <div className="flex-4">
+                                    <Input
+                                        label="Issuer"
+                                        placeHolder={'Coursera / Google /etc.'}
+                                        type={'text'}
+                                        value={cert.issuer}
+                                        onChange={(e) =>
+                                            updateArrayItem(
+                                                index,
+                                                'issuer',
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <div className="flex-1">
+                                    <Input
+                                        label="Year"
+                                        placeholder="2024"
+                                        type="text"
+                                        value={cert.year || ''}
+                                        onChange={(e) =>
+                                            updateArrayItem(
+                                                index,
+                                                'year',
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+                                </div>
+                            </div>
                         </div>
                         {certificationInfo.length > 1 && (
                             <button
@@ -72,7 +78,7 @@ const CertificationInfoForm = ({
                 ))}
                 <button
                     type="button"
-                    className="self-start flex items-center gap-2 px-4 py-2 rounded bg-purple-100 text-purple-800 text-sm font-medium hover:bg-purple-200 cursor-pointer"
+                    className="self-center md:self-start flex items-center gap-2 px-4 py-2 rounded bg-purple-100 text-purple-800 text-sm font-medium hover:bg-purple-200 cursor-pointer"
                     onClick={() =>
                         addArrayItem({
                             title: '',

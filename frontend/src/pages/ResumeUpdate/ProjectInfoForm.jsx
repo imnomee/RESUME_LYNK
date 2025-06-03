@@ -8,16 +8,17 @@ const ProjectInfoForm = ({
     removeArrayItem,
 }) => {
     return (
-        <div className="px-5 pt-5">
-            <h2 className="text-lg font-semibold text-gray-900">Projects</h2>
-            <div className="mt-4 flex flex-col gap-4 mb-3">
+        <div className="p-3 md:p-5">
+            <h2 className="text-base md:text-lg font-semibold text-gray-900">
+                Projects
+            </h2>
+            <div className="my-2 flex flex-col gap-2">
                 {projectInfo.map((project, index) => (
                     <div
                         key={index}
-                        className="border border-gray-200/80 p-4 rounded-lg relative">
-                        <div className="grid grid-cols-1 md:grid-cols-2">
+                        className="border border-purple-400/90 p-2 rounded-lg relative md:p-4">
+                        <div className="flex flex-col gap-2">
                             <Input
-                                className="w-full"
                                 label={'Project Title'}
                                 placeHolder={'Portfolio Website'}
                                 type="text"
@@ -30,26 +31,7 @@ const ProjectInfoForm = ({
                                     )
                                 }
                             />
-                        </div>
-                        <div className="col-span-2">
-                            <label className="text-xs font-medium text-slate-600">
-                                Description
-                            </label>
-                            <textarea
-                                className="input-box"
-                                placeholder="Short description about the project"
-                                rows={3}
-                                value={project.description || ''}
-                                onChange={(e) =>
-                                    updateArrayItem(
-                                        index,
-                                        'description',
-                                        e.target.value
-                                    )
-                                }
-                            />
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+
                             <Input
                                 label={'Project Link'}
                                 placeholder="https://github.com/imnomee"
@@ -76,6 +58,24 @@ const ProjectInfoForm = ({
                                     )
                                 }
                             />
+                            <div className="">
+                                <label className="text-sm md:text-base text-gray-600">
+                                    Description
+                                </label>
+                                <textarea
+                                    className="input-box"
+                                    placeholder="Short description about the project"
+                                    rows={6}
+                                    value={project.description || ''}
+                                    onChange={(e) =>
+                                        updateArrayItem(
+                                            index,
+                                            'description',
+                                            e.target.value
+                                        )
+                                    }
+                                />
+                            </div>
                         </div>
                         {projectInfo.length > 1 && (
                             <button
