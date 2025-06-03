@@ -20,7 +20,7 @@ const WorkExperienceForm = ({
                         <div
                             key={index}
                             className="border border-purple-400/90 p-2 rounded-lg relative md:p-4">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="flex flex-col gap-2">
                                 <Input
                                     label="Company"
                                     placeHolder={'ABC Corp'}
@@ -47,48 +47,60 @@ const WorkExperienceForm = ({
                                         )
                                     }
                                 />
-                                <Input
-                                    label={'Start Date'}
-                                    type={'month'}
-                                    value={
-                                        experience.startDate
-                                            ? new Date(
-                                                  experience.startDate
-                                              ).toLocaleDateString('en-CA', {
-                                                  year: 'numeric',
-                                                  month: '2-digit',
-                                              })
-                                            : ''
-                                    }
-                                    onChange={(e) =>
-                                        updateArrayItem(
-                                            index,
-                                            'startDate',
-                                            e.target.value
-                                        )
-                                    }
-                                />
-                                <Input
-                                    label={'End Date'}
-                                    type={'month'}
-                                    value={
-                                        experience.endDate
-                                            ? new Date(
-                                                  experience.endDate
-                                              ).toLocaleDateString('en-CA', {
-                                                  year: 'numeric',
-                                                  month: '2-digit',
-                                              })
-                                            : ''
-                                    }
-                                    onChange={(e) =>
-                                        updateArrayItem(
-                                            index,
-                                            'endDate',
-                                            e.target.value
-                                        )
-                                    }
-                                />
+                                <div className="flex gap-2">
+                                    <div className="flex-1">
+                                        <Input
+                                            label={'Start Date'}
+                                            type={'month'}
+                                            value={
+                                                experience.startDate
+                                                    ? new Date(
+                                                          experience.startDate
+                                                      ).toLocaleDateString(
+                                                          'en-CA',
+                                                          {
+                                                              year: 'numeric',
+                                                              month: '2-digit',
+                                                          }
+                                                      )
+                                                    : ''
+                                            }
+                                            onChange={(e) =>
+                                                updateArrayItem(
+                                                    index,
+                                                    'startDate',
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <Input
+                                            label={'End Date'}
+                                            type={'month'}
+                                            value={
+                                                experience.endDate
+                                                    ? new Date(
+                                                          experience.endDate
+                                                      ).toLocaleDateString(
+                                                          'en-CA',
+                                                          {
+                                                              year: 'numeric',
+                                                              month: '2-digit',
+                                                          }
+                                                      )
+                                                    : ''
+                                            }
+                                            onChange={(e) =>
+                                                updateArrayItem(
+                                                    index,
+                                                    'endDate',
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
+                                    </div>
+                                </div>
                             </div>
                             <div className="mt-4">
                                 <label className="text-xs font-medium text-slate-600">
