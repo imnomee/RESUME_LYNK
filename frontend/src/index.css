@@ -45,7 +45,7 @@
 }
 
 .input-box {
-    @apply w-full flex justify-between gap-3 text-sm text-black bg-gray-50/50 rounded px-4 py-3 mb-4 mt-3 border border-gray-100 outline-none focus-within:border-purple-300;
+    @apply w-full flex justify-between gap-3 text-sm text-black bg-gray-50/50 rounded p-1 md:py-3 my-1 md:my-3 border border-gray-200 outline-none focus-within:border-purple-400;
 }
 
 .btn-primary {

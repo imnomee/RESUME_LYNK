@@ -9,7 +9,9 @@ const Input = ({ value, onChange, label, placeHolder, type }) => {
 
     return (
         <div>
-            <label className="text-base text-shadow-lime-800">{label}</label>
+            <label className="text-sm md:text-base text-gray-600">
+                {label}
+            </label>
             <div className="input-box">
                 <input
                     type={
@@ -20,7 +22,7 @@ const Input = ({ value, onChange, label, placeHolder, type }) => {
                             : type
                     }
                     placeholder={placeHolder}
-                    className=" w-full bg-transparent outline-none"
+                    className=" w-full bg-transparent outline-none text-sm md:text-base"
                     value={value}
                     onChange={(e) => onChange(e)}
                 />
