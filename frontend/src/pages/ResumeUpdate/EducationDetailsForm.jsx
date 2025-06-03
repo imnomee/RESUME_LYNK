@@ -1,4 +1,3 @@
-import React from 'react';
 import Input from '../../components/inputs/Input';
 import { LuTrash2, LuPlus } from 'react-icons/lu';
 
@@ -9,14 +8,16 @@ const EducationDetailsForm = ({
     removeArrayItem,
 }) => {
     return (
-        <div className="px-5 pt-5">
-            <h2 className="text-lg font-semibold text-gray-900 ">Education</h2>
-            <div className="mt-4 flex flex-col gap-4 mb-3">
+        <div className="p-3 md:p-5">
+            <h2 className="text-base md:text-lg font-semibold text-gray-900">
+                Education
+            </h2>
+            <div className="my-2 flex flex-col gap-2">
                 {educationInfo.map((education, index) => (
                     <div
-                        className="border border-gray-200/80 p-4 rounded-lg relative"
+                        className="border border-purple-400/90 p-2 rounded-lg relative md:p-4"
                         key={index}>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="flex flex-col gap-2">
                             <Input
                                 label={'Degree'}
                                 placeHolder={'B.Tech in Computer Science'}
@@ -43,50 +44,60 @@ const EducationDetailsForm = ({
                                     )
                                 }
                             />
-                            <Input
-                                label={'Start Date'}
-                                type={'month'}
-                                value={
-                                    education.startDate
-                                        ? new Date(education.startDate).toLocaleDateString(
-                                              'en-CA',
-                                              {
-                                                  year: 'numeric',
-                                                  month: '2-digit',
-                                              }
-                                          )
-                                        : ''
-                                }
-                                onChange={(e) =>
-                                    updateArrayItem(
-                                        index,
-                                        'startDate',
-                                        e.target.value
-                                    )
-                                }
-                            />
-                            <Input
-                                label={'End Date'}
-                                type={'month'}
-                                value={
-                                    education.endDate
-                                        ? new Date(education.endDate).toLocaleDateString(
-                                              'en-CA',
-                                              {
-                                                  year: 'numeric',
-                                                  month: '2-digit',
-                                              }
-                                          )
-                                        : ''
-                                }
-                                onChange={(e) =>
-                                    updateArrayItem(
-                                        index,
-                                        'endDate',
-                                        e.target.value
-                                    )
-                                }
-                            />
+                            <div className="flex gap-2">
+                                <div className="flex-1">
+                                    <Input
+                                        label={'Start Date'}
+                                        type={'month'}
+                                        value={
+                                            education.startDate
+                                                ? new Date(
+                                                      education.startDate
+                                                  ).toLocaleDateString(
+                                                      'en-CA',
+                                                      {
+                                                          year: 'numeric',
+                                                          month: '2-digit',
+                                                      }
+                                                  )
+                                                : ''
+                                        }
+                                        onChange={(e) =>
+                                            updateArrayItem(
+                                                index,
+                                                'startDate',
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <div className="flex-1">
+                                    <Input
+                                        label={'End Date'}
+                                        type={'month'}
+                                        value={
+                                            education.endDate
+                                                ? new Date(
+                                                      education.endDate
+                                                  ).toLocaleDateString(
+                                                      'en-CA',
+                                                      {
+                                                          year: 'numeric',
+                                                          month: '2-digit',
+                                                      }
+                                                  )
+                                                : ''
+                                        }
+                                        onChange={(e) =>
+                                            updateArrayItem(
+                                                index,
+                                                'endDate',
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+                                </div>
+                            </div>
                         </div>
                         {educationInfo.length > 1 && (
                             <button
@@ -99,7 +110,7 @@ const EducationDetailsForm = ({
                     </div>
                 ))}
                 <button
-                    className="self-start flex items-center gap-2 px-4 py-2 rounded bg-purple-100 text-purple-600 text-sm font-medium  hover:bg-purple-200 cursor-pointer"
+                    className="self-center md:self-start flex items-center gap-2 px-4 py-2 rounded bg-purple-100 text-purple-600 text-sm font-medium  hover:bg-purple-200 cursor-pointer"
                     type="button"
                     onClick={() =>
                         addArrayItem({
