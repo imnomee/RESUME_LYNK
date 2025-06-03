@@ -152,7 +152,9 @@ const LandingPage = () => {
                     setOpenAuthModal(false);
                     setCurrentPage('login'); // Reset to login view on close
                 }}
-                hideHeader>
+                hideHeader
+                width="auto max-w-[30vw]"
+                height="auto max-h-[30vh]">
                 <div>
                     {currentPage === 'login' && (
                         <Login setCurrentPage={setCurrentPage} />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const Modal = ({
     children,
@@ -10,12 +10,27 @@ const Modal = ({
     actionBtnIcon = null,
     actionBtnText,
     onActionClick,
+    width = '90vw',
+    height = 'auto',
 }) => {
+    useEffect(() => {
+        if (isOpen) document.body.style.overflow = 'hidden';
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isOpen]);
+
     if (!isOpen) return null;
+
     return (
-        <div className="fixed inset-0 z-50 flex justify-center items-center w-full h-full bg-black/50">
+        <div className="fixed inset-0 z-50 flex justify-center items-center bg-black/50">
             <div
-                className={`relative flex flex-col bg-white shadow-lg rounded-lg overflow-hidden`}>
+                className="relative flex flex-col bg-white shadow-lg rounded-lg overflow-hidden"
+                style={{
+                    width,
+                    height,
+                    maxHeight: '90vh', // ensure it doesn't overflow screen
+                }}>
                 {!hideHeader && (
                     <div className="flex items-center justify-between p-4 border-b border-gray-200">
                         <h3 className="md:text-lg font-medium text-gray-900">
@@ -31,9 +46,10 @@ const Modal = ({
                         )}
                     </div>
                 )}
+
                 <button
                     type="button"
-                    className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 flex justify-center items-center absolute top-3.5 right-3.5"
+                    className="text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 flex justify-center items-center absolute top-3.5 right-3.5"
                     onClick={onClose}>
                     <svg
                         className="w-3 h-3"
@@ -46,11 +62,12 @@ const Modal = ({
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth="2"
-                            d="M1 1l6 6m0 0l6 7l6-6m7 7l-6 6m0 0l-6-6m0 0L1 1m6 6l7-7m-7 7l-7 7m0 0l6-6m0 0L1 1m6 6l7-7m-7 7l-7 7m0 0l6-6m0 0L1 1"
+                            d="M1 1l12 12M13 1L1 13"
                         />
                     </svg>
                 </button>
-                <div className="flex-1 overflow-y-auto cutom-scrollbar">
+
+                <div className="flex-1 overflow-y-auto custom-scrollbar">
                     {children}
                 </div>
             </div>

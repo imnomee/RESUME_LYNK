@@ -513,36 +513,46 @@ const EditResume = () => {
             <Modal
                 isOpen={openThemeSelector}
                 onClose={() => setOpenThemeSelector(false)}
-                title={'Change Theme'}>
-                <div className="w-[90vw] h-[30vh]">
-                    <ThemeSelector
-                        selectedTheme={resumeData?.template}
-                        setSelectedTheme={(value) =>
-                            setResumeData((prevState) => ({
-                                ...prevState,
-                                template: value || prevState.template,
-                            }))
-                        }
-                        resumeData={null}
-                        onClose={() => setOpenThemeSelector(false)}
-                    />
-                </div>
+                title="Change Theme"
+                width="90vw"
+                height="90vh">
+                <ThemeSelector
+                    selectedTheme={resumeData?.template}
+                    setSelectedTheme={(value) =>
+                        setResumeData((prevState) => ({
+                            ...prevState,
+                            template: value || prevState.template,
+                        }))
+                    }
+                    resumeData={null}
+                    onClose={() => setOpenThemeSelector(false)}
+                />
             </Modal>
             <Modal
                 isOpen={openPreviewModal}
                 onClose={() => setOpenPreviewModaal(false)}
                 title={resumeData.title}
                 showActionBtn
-                actionBtnText={'Download'}
+                actionBtnText="Download"
                 actionBtnIcon={<LuDownload className="text-[16px]" />}
-                onActionClick={() => reactToPrintFn()}>
-                <div className="" ref={resumeDownloadRef} id="element-to-print">
+                onActionClick={reactToPrintFn}
+                width="850px" // Slightly wider for padding
+                height="auto" // Let height grow, we'll scroll inside
+            >
+                <div
+                    ref={resumeDownloadRef}
+                    id="element-to-print"
+                    className="mx-auto bg-white shadow-md"
+                    style={{
+                        width: '794px', // A4 width
+                        minHeight: '1500px', // A4 height
+                        padding: '2px',
+                    }}>
                     <RenderResume
-                        templateId={
-                            resumeData?.template?.theme || 'w-[50vw] h-[40vh]'
-                        }
+                        templateId={resumeData?.template?.theme || '01'}
                         resumeData={resumeData}
                         colorPalette={resumeData?.template?.colorPalette || []}
+                        containerWidth={794}
                     />
                 </div>
             </Modal>
