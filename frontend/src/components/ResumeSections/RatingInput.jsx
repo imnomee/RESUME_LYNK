@@ -13,7 +13,7 @@ const RatingInput = ({
         onChange(newValue);
     };
     return (
-        <div className="flex gap-3 cursor-pointer">
+        <div className="flex gap-1.5 md:gap-3 cursor-pointer">
             {[...Array(total)].map((_, index) => {
                 const isActive = index < displayValue;
                 return (
