@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { LuCheck, LuPencil } from 'react-icons/lu';
-// Consider adding PropTypes or converting this to TypeScript for better type safety
 
 const TitleInput = ({ title, setTitle }) => {
     const [showInput, setShowInput] = useState(false); // Toggles between display and edit mode
@@ -9,15 +8,13 @@ const TitleInput = ({ title, setTitle }) => {
         <div className="flex items-center gap-3">
             {showInput ? (
                 <>
-                    {/* Editable input field for title */}
                     <input
-                        className="text-sm md:text-[17px] bg-transparent outline-none text-black font-semibold border-b border-gray-300 pb-1"
+                        className="flex-1 text-sm md:text-[17px] w-32 md:w-96 bg-transparent outline-none text-black font-semibold border-b border-gray-300 pb-1 truncate"
                         type="text"
                         value={title}
                         placeholder="Resume Title"
-                        onChange={(e) => setTitle(e.target.value)} // Updates parent state
+                        onChange={(e) => setTitle(e.target.value)}
                     />
-                    {/* Check icon to confirm title change */}
                     <button
                         onClick={() => setShowInput(false)}
                         aria-label="Confirm title"
@@ -27,11 +24,9 @@ const TitleInput = ({ title, setTitle }) => {
                 </>
             ) : (
                 <>
-                    {/* Display current title */}
-                    <h2 className="text-sm md:text-[17px] font-semibold">
+                    <h2 className="flex-1 text-sm md:text-[17px] font-semibold truncate">
                         {title}
                     </h2>
-                    {/* Pencil icon to enable editing */}
                     <button
                         onClick={() => setShowInput(true)}
                         aria-label="Edit title"
