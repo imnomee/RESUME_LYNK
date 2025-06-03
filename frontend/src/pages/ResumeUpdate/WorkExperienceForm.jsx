@@ -9,17 +9,17 @@ const WorkExperienceForm = ({
     removeArrayItem,
 }) => {
     return (
-        <div className="px-5 pt-5">
-            <h2 className="text-lg font-semibold text-gray-900">
+        <div className="p-3 md:p-5">
+            <h2 className="text-base md:text-lg font-semibold text-gray-900">
                 Work Experience
             </h2>
 
-            <div className="mt-4 flex flex-col gap-4 mb-3">
+            <div className="my-2 flex flex-col gap-2">
                 {workExperience.map((experience, index) => {
                     return (
                         <div
                             key={index}
-                            className="border border-gray-200/80 p-4 rounded-lg relative">
+                            className="border border-purple-400/90 p-2 rounded-lg relative md:p-4">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <Input
                                     label="Company"
@@ -96,8 +96,8 @@ const WorkExperienceForm = ({
                                 </label>
                                 <textarea
                                     placeholder="What did you do in this role?"
-                                    className="text-input w-full mt-1 p-4"
-                                    rows={5}
+                                    className="input-box w-full bg-transparent outline-none text-sm md:text-lg"
+                                    rows={6}
                                     value={experience.description || ''}
                                     onChange={(e) =>
                                         updateArrayItem(
@@ -121,7 +121,7 @@ const WorkExperienceForm = ({
                 })}
                 <button
                     type="button"
-                    className="self-start flex items-center gap-2 px-4 py-2 rounded bg-purple-100 text-purple-600 text-sm font-medium hover:bg-purple-200 cursor-pointer"
+                    className="self-center md:self-start flex items-center gap-2 px-4 py-2 rounded bg-purple-100 text-purple-600 text-sm font-medium hover:bg-purple-200 cursor-pointer"
                     onClick={() =>
                         addArrayItem({
                             companyName: '',
