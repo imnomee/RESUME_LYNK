@@ -2,7 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useReactToPrint } from 'react-to-print';
-import { LuArrowLeft, LuCircleAlert, LuDownload, LuSave } from 'react-icons/lu';
+import {
+    LuArrowLeft,
+    LuCircleAlert,
+    LuDownload,
+    LuPrinter,
+    LuSave,
+} from 'react-icons/lu';
 import DashboardLayout from '../../components/layouts/DashboardLayout';
 import axiosInstance from '../../utils/axiosInstance';
 import { API_PATHS } from '../../utils/apiPaths';
@@ -36,6 +42,7 @@ import removeArrayItem from '../../utils/removeArrayItem';
 import handleSaveResume from '../../utils/api/handleSaveResume';
 import handleDeleteResume from '../../utils/api/handleDeleteResume';
 import fetchResumeDetailsById from '../../utils/api/fetchResumeDetailsById';
+import usePdfExport from '../../utils/usePdfExport';
 
 const EditResume = () => {
     const navigate = useNavigate();
@@ -285,6 +292,7 @@ const EditResume = () => {
         }
     };
 
+    //Resume Print Preview
     const previewResumePrint = useReactToPrint({
         contentRef: resumeDownloadRef,
         documentTitle: 'Resume',
@@ -293,8 +301,8 @@ const EditResume = () => {
 
     const reactToPrintFn = useReactToPrint({
         onPrintError: (error) => console.error('Printing error:', error),
-        removeAfterPrint: true,
         contentRef: resumeDownloadRef,
+        removeAfterPrint: true,
         documentTitle: 'Resume',
         print: async (printIframe) => {
             const document = printIframe.contentDocument;
@@ -376,6 +384,10 @@ const EditResume = () => {
         };
     }, [resumeId]);
 
+    const handlePrint = usePdfExport({
+        contentRef: resumeDownloadRef,
+        title: resumeData.title,
+    });
     return (
         <DashboardLayout>
             <div className="container mx-auto">
@@ -403,37 +415,8 @@ const EditResume = () => {
                                 onSave={onSave}
                                 onNext={validateAndNext}
                                 currentPage={currentPage}
+                                handlePrint={handlePrint}
                             />
-                            {/* <div className="flex items-end justify-center gap-3 my-4 border-t border-purple-400 pt-2">
-                                <button
-                                    className="btn-small-light"
-                                    onClick={goToPrevStep}
-                                    disabled={isLoading}>
-                                    <LuArrowLeft className="text-[16px]" />
-                                    Back
-                                </button>
-                                <button
-                                    className="btn-small-light"
-                                    onClick={onSave}
-                                    disabled={isLoading}>
-                                    <LuSave className="text-[16px]" />
-                                    {isLoading ? 'Updating...' : 'Save & Exit'}
-                                </button>
-                                <button
-                                    className="btn-small-light"
-                                    onClick={validateAndNext}
-                                    disabled={isLoading}>
-                                    {currentPage === 'additionalInfo' && (
-                                        <LuDownload className="text-[16px]" />
-                                    )}
-                                    {currentPage === 'additionalInfo'
-                                        ? 'Preview'
-                                        : 'Next'}
-                                    {currentPage !== 'additionalInfo' && (
-                                        <LuArrowLeft className="text-[16px] rotate-180" />
-                                    )}
-                                </button>
-                            </div> */}
                         </div>
                     </div>
                     <div
@@ -474,8 +457,8 @@ const EditResume = () => {
                 onClose={() => setOpenPreviewModaal(false)}
                 title={resumeData.title}
                 showActionBtn
-                actionBtnText={'Download PDF'}
-                actionBtnIcon={<LuDownload className="text-[16px]" />}
+                actionBtnText={'Print Resume'}
+                actionBtnIcon={<LuPrinter className="text-[16px]" />}
                 onActionClick={() => previewResumePrint()}
                 width="805px"
                 height="auto">
