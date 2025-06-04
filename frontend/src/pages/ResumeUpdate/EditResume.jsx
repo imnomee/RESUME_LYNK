@@ -16,7 +16,6 @@ import CertificationInfoForm from './CertificationInfoForm';
 import AdditionalInfoForm from './AdditionalInfoForm';
 import RenderResume from '../../components/ResumeTemplates/RenderResume';
 import newResume from '../../utils/newResume';
-import TitleInput from '../../components/inputs/TitleInput';
 import StepProgress from '../../components/StepProgress';
 import ThemeSelector from './ThemeSelector';
 import Modal from '../../components/Modal';
@@ -285,6 +284,12 @@ const EditResume = () => {
         }
     };
 
+    const previewResumePrint = useReactToPrint({
+        contentRef: resumeDownloadRef,
+        documentTitle: 'Resume',
+        onAfterPrint: () => {},
+    });
+
     const reactToPrintFn = useReactToPrint({
         onPrintError: (error) => console.error('Printing error:', error),
         removeAfterPrint: true,
@@ -333,19 +338,19 @@ const EditResume = () => {
             }
         },
     });
-    useEffect(() => {
-        // This effect will run every time openPreviewModal changes
-        // and when the component mounts if openPreviewModal is initially true.
-        if (openPreviewModal && resumeDownloadRef.current) {
-            // Give React a moment to fully render the content
-            // before triggering the print function.
-            const timer = setTimeout(() => {
-                reactToPrintFn();
-            }, 100); // A small delay can help ensure the content is fully painted
+    // useEffect(() => {
+    //     // This effect will run every time openPreviewModal changes
+    //     // and when the component mounts if openPreviewModal is initially true.
+    //     if (openPreviewModal && resumeDownloadRef.current) {
+    //         // Give React a moment to fully render the content
+    //         // before triggering the print function.
+    //         const timer = setTimeout(() => {
+    //             reactToPrintFn();
+    //         }, 100); // A small delay can help ensure the content is fully painted
 
-            return () => clearTimeout(timer); // Cleanup the timer if component unmounts
-        }
-    }, [openPreviewModal, reactToPrintFn]); // Dependencies: re-run when modal state or print function changes
+    //         return () => clearTimeout(timer); // Cleanup the timer if component unmounts
+    //     }
+    // }, [openPreviewModal, reactToPrintFn]); // Dependencies: re-run when modal state or print function changes
 
     const updateBaseWidth = () => {
         if (resumeRef.current) {
@@ -461,6 +466,25 @@ const EditResume = () => {
                 onClose={() => setOpenPreviewModaal(false)}
                 title={resumeData.title}
                 showActionBtn
+                actionBtnText={'Download'}
+                actionBtnIcon={<LuDownload className="text-[16px]" />}
+                onActionClick={() => previewResumePrint()}>
+                <div className="" ref={resumeDownloadRef}>
+                    <RenderResume
+                        templateId={
+                            resumeData?.template?.theme || 'w-[98vw] h-[90vh]'
+                        }
+                        resumeData={resumeData}
+                        colorPalette={resumeData?.template?.colorPalette || []}
+                    />
+                </div>
+            </Modal>
+
+            {/* <Modal
+                isOpen={openPreviewModal}
+                onClose={() => setOpenPreviewModaal(false)}
+                title={resumeData.title}
+                showActionBtn
                 actionBtnText="Download"
                 actionBtnIcon={<LuDownload className="text-[16px]" />}
                 onActionClick={reactToPrintFn}
@@ -483,7 +507,7 @@ const EditResume = () => {
                         containerWidth={794}
                     />
                 </div>
-            </Modal>
+            </Modal> */}
         </DashboardLayout>
     );
 };
