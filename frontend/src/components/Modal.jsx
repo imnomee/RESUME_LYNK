@@ -67,7 +67,7 @@ const Modal = ({
                     </svg>
                 </button>
 
-                <div className="flex-1 overflow-y-auto custom-scrollbar">
+                <div className="overflow-y-auto custom-scrollbar">
                     {children}
                 </div>
             </div>

@@ -65,7 +65,7 @@ const Dashboard = () => {
                         onClick={() => setOpenCreateModal(true)}
                         role="button"
                         aria-label="Create a new resume"
-                        className="h-[300px] flex flex-col gap-5 items-center justify-center bg-white rounded-lg border border-purple-100 hover:border-purple-300 hover:bg-purple-50/5 cursor-pointer transition-shadow hover:shadow-md">
+                        className="h-[300px] flex flex-col gap-5 items-center justify-center bg-purple-50 rounded-lg border border-purple-100 hover:border-purple-300 hover:bg-purple-50/5 cursor-pointer transition-shadow hover:shadow-lg">
                         <div className="w-12 h-12 flex items-center justify-center bg-purple-200/60 rounded-2xl">
                             <LuCirclePlus className="text-xl text-purple-500" />
                         </div>
@@ -126,7 +126,9 @@ const Dashboard = () => {
                     setOpenCreateModal(false);
                     // Optionally reset the form or refetch resumes
                 }}
-                hideHeader>
+                hideHeader
+                width="max-w-[30vw]"
+                height="max-h-[30vh]">
                 <CreateResumeForm
                     onSuccess={() => {
                         setOpenCreateModal(false);

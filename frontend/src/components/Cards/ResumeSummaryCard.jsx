@@ -18,7 +18,7 @@ const ResumeSummaryCard = ({ imgUrl, title, lastUpdated, onSelect }) => {
 
     return (
         <div
-            className="h-[300px] flex flex-col items-center justify-between bg-white rounded-lg border border-gray-200 hover:border-purple-300 overflow-hidden cursor-pointer"
+            className="h-[300px] flex flex-col items-center justify-between bg-white rounded-lg border border-gray-200  hover:border-purple-300 transition-all overflow-hidden cursor-pointer"
             onClick={onSelect}
             style={{ backgroundColor: bgColor }}>
             <div>
@@ -33,7 +33,7 @@ const ResumeSummaryCard = ({ imgUrl, title, lastUpdated, onSelect }) => {
                     <div></div>
                 )}
             </div>
-            <div className="w-full bg-white px-4 py-3">
+            <div className="w-full bg-purple-100 px-4 py-3">
                 <h5 className="text-sm font-medium truncate overflow-hidden whitespace-nowrap">
                     {title}
                 </h5>

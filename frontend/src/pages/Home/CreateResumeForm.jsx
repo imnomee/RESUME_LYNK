@@ -54,7 +54,7 @@ const CreateResumeForm = () => {
     };
 
     return (
-        <div className="w-[90vw] md:w-[70vw] p-7 flex flex-col justify-center">
+        <div className="w-full p-7 flex flex-col justify-center">
             <h3 className="text-lg font-semibold text-black">
                 Create New Resume
             </h3>
