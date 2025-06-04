@@ -67,7 +67,7 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
                 transform: containerWidth > 0 ? `scale(${scale})` : 'none',
                 transformOrigin: 'top left',
                 width: containerWidth > 0 ? `${containerWidth}px` : '800px',
-                height: '800px', // Optional: Replace with `auto` if dynamic height required
+                height: '1200px', // Optional: Replace with `auto` if dynamic height required
             }}>
             <div className="grid grid-cols-12 gap-8">
                 {/* Left Section */}

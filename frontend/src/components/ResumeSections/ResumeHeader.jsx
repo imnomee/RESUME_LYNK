@@ -33,7 +33,7 @@ const ResumeHeader = ({
                     className="btn-small-light"
                     onClick={() => setOpenPreviewModaal(true)}>
                     <LuDownload className="text-[16px]" />
-                    <span className="hidden md:block">
+                    <span className="hidden lg:block">
                         Preview & Download Resume
                     </span>
                 </button>

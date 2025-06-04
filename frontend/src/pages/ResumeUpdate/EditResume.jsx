@@ -380,8 +380,8 @@ const EditResume = () => {
                     handleDeleteResume={onDelete}
                     setOpenPreviewModaal={setOpenPreviewModaal}
                 />
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                    <div className="bg-white rounded-lg border border-purple-100 overflow-hidden">
+                <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
+                    <div className="bg-white rounded-lg border border-purple-100 overflow-hidden col-span-2">
                         <StepProgress progress={progress} />
                         {renderForm()}
                         <div className="mx-5">
@@ -423,7 +423,9 @@ const EditResume = () => {
                             </div>
                         </div>
                     </div>
-                    <div ref={resumeRef} className="hidden md:block h-[100vh]">
+                    <div
+                        ref={resumeRef}
+                        className="hidden md:block h-[100vh] col-span-3">
                         {/* Resume Template */}
                         <RenderResume
                             templateId={resumeData?.template?.theme || ''}
@@ -468,7 +470,7 @@ const EditResume = () => {
                 <div
                     ref={resumeDownloadRef}
                     id="element-to-print"
-                    className="mx-auto bg-white shadow-md"
+                    className="mx-auto bg-white"
                     style={{
                         width: '794px', // A4 width
                         minHeight: '1500px', // A4 height
