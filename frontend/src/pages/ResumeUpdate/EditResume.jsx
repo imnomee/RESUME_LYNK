@@ -19,6 +19,7 @@ import newResume from '../../utils/newResume';
 import StepProgress from '../../components/StepProgress';
 import ThemeSelector from './ThemeSelector';
 import Modal from '../../components/Modal';
+import FooterNavigation from '../../components/ResumeSections/FooterNavigation';
 
 import html2pdf from 'html2pdf.js'; // Assuming you installed it
 
@@ -396,7 +397,14 @@ const EditResume = () => {
                                     {errorMsg}
                                 </div>
                             )}
-                            <div className="flex items-end justify-center gap-3 my-4 border-t border-purple-400 pt-2">
+                            <FooterNavigation
+                                isLoading={isLoading}
+                                onBack={goToPrevStep}
+                                onSave={onSave}
+                                onNext={validateAndNext}
+                                currentPage={currentPage}
+                            />
+                            {/* <div className="flex items-end justify-center gap-3 my-4 border-t border-purple-400 pt-2">
                                 <button
                                     className="btn-small-light"
                                     onClick={goToPrevStep}
@@ -425,7 +433,7 @@ const EditResume = () => {
                                         <LuArrowLeft className="text-[16px] rotate-180" />
                                     )}
                                 </button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <div
@@ -466,13 +474,15 @@ const EditResume = () => {
                 onClose={() => setOpenPreviewModaal(false)}
                 title={resumeData.title}
                 showActionBtn
-                actionBtnText={'Download'}
+                actionBtnText={'Download PDF'}
                 actionBtnIcon={<LuDownload className="text-[16px]" />}
-                onActionClick={() => previewResumePrint()}>
+                onActionClick={() => previewResumePrint()}
+                width="805px"
+                height="auto">
                 <div className="" ref={resumeDownloadRef}>
                     <RenderResume
                         templateId={
-                            resumeData?.template?.theme || 'w-[98vw] h-[90vh]'
+                            resumeData?.template?.theme || 'w-[90vw] h-[90vh]'
                         }
                         resumeData={resumeData}
                         colorPalette={resumeData?.template?.colorPalette || []}
