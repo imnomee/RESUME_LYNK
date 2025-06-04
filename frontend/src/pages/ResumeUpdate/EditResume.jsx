@@ -414,7 +414,7 @@ const EditResume = () => {
                                         <LuDownload className="text-[16px]" />
                                     )}
                                     {currentPage === 'additionalInfo'
-                                        ? 'Preview & Download'
+                                        ? 'Preview'
                                         : 'Next'}
                                     {currentPage !== 'additionalInfo' && (
                                         <LuArrowLeft className="text-[16px] rotate-180" />
