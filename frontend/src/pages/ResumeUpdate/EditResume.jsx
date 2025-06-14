@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useReactToPrint } from 'react-to-print';
@@ -37,8 +37,10 @@ import handleSaveResume from '../../utils/api/handleSaveResume';
 import handleDeleteResume from '../../utils/api/handleDeleteResume';
 import fetchResumeDetailsById from '../../utils/api/fetchResumeDetailsById';
 import usePdfExport from '../../utils/usePdfExport';
+import { UserContext } from '../../context/userContext';
 
 const EditResume = () => {
+    const { user } = useContext(UserContext);
     const navigate = useNavigate();
     const { resumeId } = useParams();
     const resumeRef = useRef(null);
@@ -297,16 +299,19 @@ const EditResume = () => {
         if (resumeDownloadRef.current) {
             fixTailwindColors(resumeDownloadRef.current);
 
-            // Ensure fonts loaded
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0];
+
+            const fileName = `${user.name.toUpperCase()}-Resume-${formattedDate}.pdf`;
+
             await document.fonts.ready;
 
-            // Slight delay to ensure render
             setTimeout(() => {
                 html2pdf()
                     .from(resumeDownloadRef.current)
                     .set({
                         margin: 5,
-                        filename: 'Resume.pdf',
+                        filename: fileName,
                         image: { type: 'jpeg', quality: 0.98 },
                         html2canvas: {
                             scale: 2,

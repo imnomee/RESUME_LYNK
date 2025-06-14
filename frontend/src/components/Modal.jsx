@@ -41,22 +41,28 @@ const Modal = ({
                         <h3 className="md:text-lg font-medium text-gray-900">
                             {title}
                         </h3>
-                        {showActionBtn && (
-                            <button
-                                onClick={onActionClick}
-                                className="btn-small-light mr-2">
-                                {actionBtnIcon}
-                                {actionBtnText}
-                            </button>
-                        )}
-                        {showDownloadBtn && (
-                            <button
-                                onClick={onDownloadClick}
-                                className="btn-small-light mr-6">
-                                {downloadBtnIcon}
-                                {downloadBtnText}
-                            </button>
-                        )}
+                        <div className="flex gap-2 mr-4">
+                            {showActionBtn && (
+                                <button
+                                    onClick={onActionClick}
+                                    className="btn-small-light mr-2 flex items-center gap-1">
+                                    {actionBtnIcon}
+                                    <span className="hidden md:inline">
+                                        {actionBtnText}
+                                    </span>
+                                </button>
+                            )}
+                            {showDownloadBtn && (
+                                <button
+                                    onClick={onDownloadClick}
+                                    className="btn-small-light mr-6 flex items-center gap-1">
+                                    {downloadBtnIcon}
+                                    <span className="hidden md:inline">
+                                        {downloadBtnText}
+                                    </span>
+                                </button>
+                            )}
+                        </div>
                     </div>
                 )}
 
