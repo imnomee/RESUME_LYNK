@@ -10,6 +10,10 @@ const Modal = ({
     actionBtnIcon = null,
     actionBtnText,
     onActionClick,
+    showDownloadBtn,
+    downloadBtnText,
+    downloadBtnIcon,
+    onDownloadClick,
     width = '90vw',
     height = 'auto',
 }) => {
@@ -27,9 +31,10 @@ const Modal = ({
             <div
                 className="relative flex flex-col bg-white shadow-lg rounded-lg overflow-hidden"
                 style={{
-                    width,
+                    width: 'fit-content',
+                    maxWidth: width,
                     height,
-                    maxHeight: '90vh', // ensure it doesn't overflow screen
+                    maxHeight: '90vh',
                 }}>
                 {!hideHeader && (
                     <div className="flex items-center justify-between p-4 border-b border-gray-200">
@@ -39,9 +44,17 @@ const Modal = ({
                         {showActionBtn && (
                             <button
                                 onClick={onActionClick}
-                                className="btn-small-light mr-12">
+                                className="btn-small-light mr-2">
                                 {actionBtnIcon}
                                 {actionBtnText}
+                            </button>
+                        )}
+                        {showDownloadBtn && (
+                            <button
+                                onClick={onDownloadClick}
+                                className="btn-small-light mr-6">
+                                {downloadBtnIcon}
+                                {downloadBtnText}
                             </button>
                         )}
                     </div>

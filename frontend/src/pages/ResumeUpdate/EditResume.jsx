@@ -2,13 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useReactToPrint } from 'react-to-print';
-import {
-    LuArrowLeft,
-    LuCircleAlert,
-    LuDownload,
-    LuPrinter,
-    LuSave,
-} from 'react-icons/lu';
+import { LuCircleAlert, LuPrinter, LuDownload } from 'react-icons/lu';
 import DashboardLayout from '../../components/layouts/DashboardLayout';
 import axiosInstance from '../../utils/axiosInstance';
 import { API_PATHS } from '../../utils/apiPaths';
@@ -299,67 +293,47 @@ const EditResume = () => {
         onAfterPrint: () => {},
     });
 
-    const reactToPrintFn = useReactToPrint({
-        onPrintError: (error) => console.error('Printing error:', error),
-        contentRef: resumeDownloadRef,
-        removeAfterPrint: true,
-        documentTitle: 'Resume',
-        print: async (printIframe) => {
-            const document = printIframe.contentDocument;
-            if (document) {
-                const htmlElement = document.getElementById('element-to-print');
-                fixTailwindColors(htmlElement);
-                if (htmlElement) {
-                    console.log('Element to convert:', htmlElement);
-                    const exporter = html2pdf()
-                        .from(htmlElement)
-                        .set({
-                            margin: 5,
-                            filename: 'Nota Simple.pdf',
-                            image: { type: 'jpeg', quality: 0.98 },
-                            html2canvas: {
-                                scale: 2,
-                                logging: true,
-                                useCORS: true,
-                            },
-                            jsPDF: {
-                                unit: 'mm',
-                                format: 'legal',
-                                orientation: 'portrait',
-                            },
-                        });
+    const reactToPrintFn = async () => {
+        if (resumeDownloadRef.current) {
+            fixTailwindColors(resumeDownloadRef.current);
 
-                    try {
-                        await exporter.save(); // Use .save() to trigger download
+            // Ensure fonts loaded
+            await document.fonts.ready;
+
+            // Slight delay to ensure render
+            setTimeout(() => {
+                html2pdf()
+                    .from(resumeDownloadRef.current)
+                    .set({
+                        margin: 5,
+                        filename: 'Resume.pdf',
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: {
+                            scale: 2,
+                            logging: true,
+                            useCORS: true,
+                        },
+                        jsPDF: {
+                            unit: 'mm',
+                            format: 'a4',
+                            orientation: 'portrait',
+                        },
+                        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+                    })
+                    .save()
+                    .then(() =>
                         console.log(
                             'PDF generated and downloaded successfully!'
-                        );
-                    } catch (pdfError) {
-                        console.error('Error generating PDF:', pdfError);
-                    }
-                } else {
-                    console.error(
-                        "Element with ID 'element-to-download-as-pdf' not found in the print content."
+                        )
+                    )
+                    .catch((err) =>
+                        console.error('Error generating PDF:', err)
                     );
-                }
-            } else {
-                console.error('Print iframe document not available.');
-            }
-        },
-    });
-    // useEffect(() => {
-    //     // This effect will run every time openPreviewModal changes
-    //     // and when the component mounts if openPreviewModal is initially true.
-    //     if (openPreviewModal && resumeDownloadRef.current) {
-    //         // Give React a moment to fully render the content
-    //         // before triggering the print function.
-    //         const timer = setTimeout(() => {
-    //             reactToPrintFn();
-    //         }, 100); // A small delay can help ensure the content is fully painted
-
-    //         return () => clearTimeout(timer); // Cleanup the timer if component unmounts
-    //     }
-    // }, [openPreviewModal, reactToPrintFn]); // Dependencies: re-run when modal state or print function changes
+            }, 300);
+        } else {
+            console.error('hiddenPrintRef is not attached');
+        }
+    };
 
     const updateBaseWidth = () => {
         if (resumeRef.current) {
@@ -460,9 +434,18 @@ const EditResume = () => {
                 actionBtnText={'Print Resume'}
                 actionBtnIcon={<LuPrinter className="text-[16px]" />}
                 onActionClick={() => previewResumePrint()}
-                width="805px"
-                height="auto">
-                <div className="" ref={resumeDownloadRef}>
+                showDownloadBtn
+                downloadBtnText={'Download Resume'}
+                downloadBtnIcon={<LuDownload className="text-[16px]" />}
+                onDownloadClick={() => reactToPrintFn()}>
+                <div
+                    className=""
+                    ref={resumeDownloadRef}
+                    style={{
+                        width: '210mm',
+                        padding: '0mm 2mm 100mm 2mm',
+                        background: 'white',
+                    }}>
                     <RenderResume
                         templateId={
                             resumeData?.template?.theme || 'w-[90vw] h-[90vh]'
@@ -472,35 +455,6 @@ const EditResume = () => {
                     />
                 </div>
             </Modal>
-
-            {/* <Modal
-                isOpen={openPreviewModal}
-                onClose={() => setOpenPreviewModaal(false)}
-                title={resumeData.title}
-                showActionBtn
-                actionBtnText="Download"
-                actionBtnIcon={<LuDownload className="text-[16px]" />}
-                onActionClick={reactToPrintFn}
-                width="850px" // Slightly wider for padding
-                height="auto" // Let height grow, we'll scroll inside
-            >
-                <div
-                    ref={resumeDownloadRef}
-                    id="element-to-print"
-                    className="mx-auto bg-white"
-                    style={{
-                        width: '794px', // A4 width
-                        minHeight: '1500px', // A4 height
-                        padding: '2px',
-                    }}>
-                    <RenderResume
-                        templateId={resumeData?.template?.theme || '01'}
-                        resumeData={resumeData}
-                        colorPalette={resumeData?.template?.colorPalette || []}
-                        containerWidth={794}
-                    />
-                </div>
-            </Modal> */}
         </DashboardLayout>
     );
 };
