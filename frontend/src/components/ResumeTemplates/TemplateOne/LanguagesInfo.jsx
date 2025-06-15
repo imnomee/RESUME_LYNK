@@ -1,10 +1,10 @@
 import React from 'react';
-import Progress from '../Progress.jsx';
+import Progress from '../../Progress.jsx';
 
-const Skill = ({ skill, progress, accentColor, bgColor }) => {
+const Language = ({ name, progress, accentColor, bgColor }) => {
     return (
-        <div className="flex items-center justify-between">
-            <p className="text-[12px] font-semibold text-gray-900">{skill}</p>
+        <div className="flex items-center justify-between ">
+            <p className="text-sm font-medium tracking-wide">{name}</p>
             {progress > 0 && (
                 <Progress
                     progress={(progress / 100) * 5}
@@ -16,13 +16,13 @@ const Skill = ({ skill, progress, accentColor, bgColor }) => {
     );
 };
 
-const SkillsInfo = ({ skills, accentColor, bgColor }) => {
+const LanguagesInfo = ({ languages, accentColor, bgColor }) => {
     return (
-        <div className="grid grid-cols-2 gap-x-5 gap-y-1 mb-5">
-            {skills.map((_, index) => (
-                <Skill
+        <div className="flex flex-col gap-1">
+            {languages.map((_, index) => (
+                <Language
                     key={index}
-                    skill={_.skillName}
+                    name={_.name}
                     progress={_.progressLevel}
                     accentColor={accentColor}
                     bgColor={bgColor}
@@ -32,4 +32,4 @@ const SkillsInfo = ({ skills, accentColor, bgColor }) => {
     );
 };
 
-export default SkillsInfo;
+export default LanguagesInfo;

@@ -54,6 +54,17 @@ const EditResume = () => {
     const [errorMsg, setErrorMsg] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
+    //Delete Resume
+    const onDelete = () => {
+        handleDeleteResume({
+            setIsLoading,
+            axiosInstance,
+            toast,
+            navigate,
+            resumeId,
+            API_PATHS,
+        });
+    };
     //Save Resume
     const onSave = () => {
         handleSaveResume({
@@ -64,18 +75,6 @@ const EditResume = () => {
             toast,
             navigate,
             setIsLoading,
-        });
-    };
-
-    //Delete Resume
-    const onDelete = () => {
-        handleDeleteResume({
-            setIsLoading,
-            axiosInstance,
-            toast,
-            navigate,
-            resumeId,
-            API_PATHS,
         });
     };
 

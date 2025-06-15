@@ -1,10 +1,8 @@
-import React from 'react';
-
 const CertificationInfo = ({ title, issuer, year, bgColor }) => {
     return (
         <div className="">
-            <h3 className="text-[15px] font-semibold text-gray-900">{title}</h3>
-            <div className="flex items-center gap-2">
+            <h3 className="text-sm font-semibold">{title}</h3>
+            <div className="flex items-center justify-between">
                 {year && (
                     <div
                         className="text-[12px] font-bold text-gray-800 px-3 py-1 inline-block mt-2 rounded-lg"

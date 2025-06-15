@@ -1,5 +1,6 @@
 // Import all available templates
-import TemplateOne from './TemplateOne';
+
+import TemplateOne from './TemplateOne/TemplateOne';
 
 // Mapping of templateId to the actual template component
 const templates = {

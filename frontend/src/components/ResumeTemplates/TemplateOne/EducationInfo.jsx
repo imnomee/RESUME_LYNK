@@ -2,13 +2,9 @@ import React from 'react';
 
 const EducationInfo = ({ degree, institutionName, duration }) => {
     return (
-        <div className="mb-5">
-            <h3 className="text-[15px] font-semibold text-gray-900">
-                {degree}
-            </h3>
-            <p className="text-sm text-gray-700 font-medium">
-                {institutionName}
-            </p>
+        <div className="mb-2">
+            <h3 className="text-base font-semibold text-gray-900">{degree}</h3>
+            <p className="text-sm font-medium">{institutionName}</p>
             <p className="text-xs text-gray-500 font-medium italic mt-0.5">
                 {duration}
             </p>

@@ -24,9 +24,7 @@ const WorkExperienceInfo = ({
                     {duration}
                 </p>
             </div>
-            <p className="text-sm text-gray-600 font-medium italic mt-1">
-                {description}
-            </p>
+            <p className="text-sm font-medium italic mt-2">{description}</p>
         </div>
     );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { LuGithub, LuExternalLink } from 'react-icons/lu';
-import ActionLink from './ActionLink';
+import ActionLink from '../../ResumeSections/ActionLink';
 
 const ProjectsInfo = ({
     name,
@@ -18,10 +18,8 @@ const ProjectsInfo = ({
                 } font-semibold text-gray-900`}>
                 {name}
             </h3>
-            <p className="text-sm text-gray-700 font-medium mt-1">
-                {description}
-            </p>
-            <div className="flex items-center gap-3 mt-2">
+            <p className="text-sm font-medium mt-2">{description}</p>
+            <div className="flex items-center justify-between gap-3 mt-2 pr-8">
                 {link && (
                     <ActionLink
                         icon={<LuGithub />}
