@@ -25,6 +25,22 @@ export const themeColorPalette = {
         ['#ebfdff', '#a1f4fd', '#cefafe', '#d058db', '#4a5565'],
         ['#e9fbf8', '#b4efe7', '#93e2da', '#2ac9ad', '#3048ca'],
     ],
+    themeTwo: [
+        ['#fff4e6', '#ffd8a8', '#ffa94d', '#e8590c', '#343a40'], // Warm sunset vibes
+        ['#fff9db', '#ffe066', '#ffd43b', '#fab005', '#5f3dc4'], // Golden sand + accent purple
+    ],
+    themeThree: [
+        ['#f3f0ff', '#d0bfff', '#9775fa', '#5f3dc4', '#212529'], // Lavender + deep violet
+        ['#e7f5ff', '#74c0fc', '#228be6', '#1c7ed6', '#212529'], // Cool blues
+    ],
+    themeFour: [
+        ['#e6fcf5', '#96f2d7', '#38d9a9', '#20c997', '#0b7285'], // Minty fresh
+        ['#f8f9fa', '#ced4da', '#868e96', '#495057', '#212529'], // Neutral minimalist
+    ],
+    themeFive: [
+        ['#fff0f6', '#ffdeeb', '#faa2c1', '#e64980', '#343a40'], // Soft pink + strong dark
+        ['#f1f3f5', '#e9ecef', '#dee2e6', '#adb5bd', '#495057'], // Sleek grayscale
+    ],
 };
 
 export const DUMMY_RESUME_DATA = {

@@ -1,3 +1,8 @@
+// CreateResumeForm Component
+// -----------------------------------------------------
+// Simple form for creating a new resume.
+// Handles title input, basic validation, API call, and redirects to the editor.
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_PATHS } from '../../utils/apiPaths';
@@ -5,51 +10,51 @@ import axiosInstance from '../../utils/axiosInstance';
 import Input from '../../components/inputs/Input';
 
 const CreateResumeForm = () => {
-    // State to track the resume title input
+    // Form field: Resume title input
     const [title, setTitle] = useState('');
 
-    // State to show error messages to the user
+    // UI states: Error message and loading status
     const [error, setError] = useState(null);
-
-    // State to indicate loading during form submission
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
-    // Handle form submission
+    /**
+     * Handles form submission.
+     * Validates input, calls API, navigates on success.
+     */
     const handleCreateResume = async (e) => {
         e.preventDefault();
 
-        // Prevent submission if title is empty or only spaces
+        // Validate: Title must not be empty or whitespace
         if (!title.trim()) {
             setError('Please enter a title');
             return;
         }
 
-        setError('');
-        setLoading(true);
+        setError(''); // Clear old errors
+        setLoading(true); // Start loading UI
 
         try {
-            // Send request to create a new resume
+            // API: Create a new resume
             const response = await axiosInstance.post(API_PATHS.RESUME.CREATE, {
                 title: title.trim(),
             });
 
-            // If resume is successfully created, navigate to its editor page
+            // Success: Navigate to editor
             if (response.data?._id) {
                 navigate(`/resume/${response.data._id}`);
             }
         } catch (error) {
             console.error('Create resume error:', error);
 
-            // Gracefully handle and show error messages
+            // Display a friendly error message
             setError(
                 error?.response?.data?.message ||
                     'Something went wrong. Please try again.'
             );
         } finally {
-            // End loading state
-            setLoading(false);
+            setLoading(false); // Stop loading UI
         }
     };
 
@@ -64,6 +69,7 @@ const CreateResumeForm = () => {
             </p>
 
             <form onSubmit={handleCreateResume}>
+                {/* Title input field */}
                 <Input
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
@@ -73,10 +79,10 @@ const CreateResumeForm = () => {
                     required
                 />
 
-                {/* Display error if present */}
+                {/* Error display */}
                 {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
 
-                {/* Submit button with loading indicator */}
+                {/* Submit button with loading feedback */}
                 <button
                     type="submit"
                     className="btn-primary mt-4"

@@ -1,29 +1,36 @@
+// LandingPage Component
+// -----------------------------------------------------
+// Purpose: Renders the landing page for the Resume Builder app, including:
+// - Header with login/signup button or user profile
+// - Hero section with CTA button and illustration
+// - Features section highlighting key app features
+// - Auth modal for login/signup
+// - Footer
+
 import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import HERO_IMG from '../assets/hero-img.png';
 import Login from '../pages/Auth/Login';
 import SignUp from '../pages/Auth/SignUp';
 import Modal from '../components/Modal';
 import { UserContext } from '../context/userContext';
 import ProfileCard from '../components/Cards/ProfileCard';
-import { useNavigate } from 'react-router-dom';
 
-// Delay in ms for modal open animation and loading state
+// Delay (ms) for modal animation + loading indicator
 const MODAL_DELAY = 400;
 
 const LandingPage = () => {
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
 
-    // Track modal visibility and which auth form to show
+    // Modal + auth state
     const [openAuthModal, setOpenAuthModal] = useState(false);
     const [currentPage, setCurrentPage] = useState('login');
-
-    // Show loading while navigation or modal is opening
     const [loading, setLoading] = useState(false);
 
     /**
-     * Handles the CTA click from hero section.
-     * Navigates to dashboard if logged in; otherwise opens signup modal.
+     * Handle CTA button click.
+     * Navigate to dashboard if logged in, otherwise open signup modal.
      */
     const handleCTA = () => {
         if (loading) return;
@@ -41,8 +48,8 @@ const LandingPage = () => {
     };
 
     /**
-     * Handles Login / Sign Up button in the header.
-     * Always shows login modal.
+     * Handle Login / Sign Up header button click.
+     * Opens login modal.
      */
     const handleAuthClick = () => {
         if (loading) return;
@@ -58,7 +65,7 @@ const LandingPage = () => {
     return (
         <div className="w-full min-h-full bg-white">
             <div className="mx-auto px-4 py-6">
-                {/* Header with branding and user login control */}
+                {/* Header: Brand + Auth/Profile controls */}
                 <header className="flex justify-between items-center mb-8">
                     <div className="text-xl font-bold">Resume Builder</div>
 
@@ -75,7 +82,7 @@ const LandingPage = () => {
                     )}
                 </header>
 
-                {/* Hero Section */}
+                {/* Hero Section: Headline + CTA + Illustration */}
                 <div className="flex flex-col md:flex-row items-center">
                     <div className="w-full md:w-1/2 pr-4 mb-8 md:mb-0">
                         <h1 className="text-5xl font-extrabold mb-6 leading-tight">
@@ -97,7 +104,6 @@ const LandingPage = () => {
                         </button>
                     </div>
 
-                    {/* Hero Image */}
                     <div className="w-full md:w-1/2">
                         <img
                             src={HERO_IMG}
@@ -145,24 +151,22 @@ const LandingPage = () => {
                 Made with ❤️... Happy Resuming
             </div>
 
-            {/* Modal for Auth */}
+            {/* Auth Modal */}
             <Modal
                 isOpen={openAuthModal}
                 onClose={() => {
                     setOpenAuthModal(false);
-                    setCurrentPage('login'); // Reset to login view on close
+                    setCurrentPage('login'); // Reset form to login view
                 }}
                 hideHeader
                 width="max-w-[30vw]"
                 height="max-h-[30vh]">
-                <div>
-                    {currentPage === 'login' && (
-                        <Login setCurrentPage={setCurrentPage} />
-                    )}
-                    {currentPage === 'signup' && (
-                        <SignUp setCurrentPage={setCurrentPage} />
-                    )}
-                </div>
+                {currentPage === 'login' && (
+                    <Login setCurrentPage={setCurrentPage} />
+                )}
+                {currentPage === 'signup' && (
+                    <SignUp setCurrentPage={setCurrentPage} />
+                )}
             </Modal>
         </div>
     );

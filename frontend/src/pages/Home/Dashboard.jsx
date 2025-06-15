@@ -1,3 +1,8 @@
+// Dashboard Component
+// --------------------------------------------
+// Displays a list of user resumes with an option to create new ones.
+// Handles API fetch, error/loading states, and integrates a modal for resume creation.
+
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
@@ -14,33 +19,34 @@ import { API_PATHS } from '../../utils/apiPaths';
 const Dashboard = () => {
     const navigate = useNavigate();
 
-    // Modal state for creating a new resume
+    // Controls visibility of the create resume modal
     const [openCreateModal, setOpenCreateModal] = useState(false);
 
-    // Store fetched resumes
-    const [allResumes, setAllResumes] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    // Resumes data & UI state
+    const [allResumes, setAllResumes] = useState([]); // List of user resumes
+    const [loading, setLoading] = useState(true); // Loading state for API call
+    const [error, setError] = useState(null); // Error message for UI
 
     /**
-     * Fetch all resumes from backend API.
+     * Fetches all resumes from the backend API.
+     * Sorts them by updated date (newest first) and updates state.
      */
     const fetchAllResumes = async () => {
         try {
-            setLoading(true);
+            setLoading(true); // Start loading spinner/message
+            setError(null); // Reset previous errors
 
             const response = await axiosInstance.get(API_PATHS.RESUME.GET_ALL);
             const { total, resumes } = response.data;
 
             if (total > 0 && Array.isArray(resumes)) {
-                // Sort resumes by most recently updated
                 const sortedResumes = resumes.sort(
                     (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
                 );
                 setAllResumes(sortedResumes);
-                console.log(sortedResumes);
+                console.log(sortedResumes); // TODO: Remove or replace with proper logging if needed
             } else {
-                // No resumes available
+                // No resumes found
                 setAllResumes([]);
             }
         } catch (err) {
@@ -51,7 +57,7 @@ const Dashboard = () => {
         }
     };
 
-    // Fetch resumes once on initial render
+    // Fetch resumes on component mount
     useEffect(() => {
         fetchAllResumes();
     }, []);
@@ -60,7 +66,7 @@ const Dashboard = () => {
         <DashboardLayout>
             <div className="px-4 md:px-0 pt-1 pb-6">
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-7">
-                    {/* Create Resume Button */}
+                    {/* Create Resume Card (opens modal) */}
                     <div
                         onClick={() => setOpenCreateModal(true)}
                         role="button"
@@ -74,7 +80,7 @@ const Dashboard = () => {
                         </h3>
                     </div>
 
-                    {/* Resume Cards */}
+                    {/* Resume List / Empty State / Loading / Error */}
                     {loading ? (
                         <div className="col-span-full text-center text-gray-500 pt-6">
                             Loading your resumes...
@@ -119,12 +125,11 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            {/* Modal for creating a new resume */}
+            {/* Create Resume Modal */}
             <Modal
                 isOpen={openCreateModal}
                 onClose={() => {
                     setOpenCreateModal(false);
-                    // Optionally reset the form or refetch resumes
                 }}
                 hideHeader
                 width="max-w-[30vw]"
@@ -132,7 +137,7 @@ const Dashboard = () => {
                 <CreateResumeForm
                     onSuccess={() => {
                         setOpenCreateModal(false);
-                        fetchAllResumes(); // Refresh list after adding
+                        fetchAllResumes(); // Refresh list after successful creation
                     }}
                 />
             </Modal>

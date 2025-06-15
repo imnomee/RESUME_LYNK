@@ -1,14 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import {
-    LuMapPinHouse,
-    LuMail,
-    LuPhone,
-    LuRss,
-    LuGithub,
-    LuUser,
-} from 'react-icons/lu';
-import { RiLinkedinLine } from 'react-icons/ri';
-import Contactinfo from '../ResumeSections/Contactinfo';
 import { formatYearMonth } from '../../utils/helper';
 import EducationInfo from '../ResumeSections/EducationInfo';
 import LanguagesInfo from '../ResumeSections/LanguagesInfo';
