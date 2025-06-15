@@ -24,19 +24,19 @@ const ResumeSummaryCard = ({ title = 'Untitled', lastUpdated, onSelect }) => {
 
     return (
         <div
-            className="h-[300px] flex flex-col rounded-lg border border-gray-200 hover:border-purple-300 hover:shadow-lg hover:scale-105 transition-transform duration-300 overflow-hidden cursor-pointer relative"
+            className="h-[150px] md:h-[300px] flex flex-col rounded-lg border border-gray-300 hover:border-purple-300 hover:shadow-lg hover:scale-105 transition-transform duration-300 overflow-hidden cursor-pointer relative"
             onClick={onSelect}
             aria-label={`Resume card for ${title}`}>
             {/* Visual placeholder: large title text on gradient */}
             <div
                 className={`flex-1 w-full flex items-center justify-center ${randomGradient}`}>
-                <span className="text-5xl font-extrabold text-white text-shadow-lg px-4 text-center break-words">
+                <span className="text-3xl md:text-5xl font-extrabold text-white text-shadow-lg px-4 text-center break-words">
                     {title}
                 </span>
             </div>
 
             {/* Card footer: title + last updated info */}
-            <div className="w-full bg-purple-100 px-4 py-3 text-center">
+            <div className="w-full bg-purple-100 px-4 py-3 text-center flex items-center justify-between md:flex-col">
                 <h5 className="text-sm font-medium truncate overflow-hidden whitespace-nowrap">
                     {title}
                 </h5>
