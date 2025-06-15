@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import {
     LuMapPinHouse,
     LuMail,
@@ -10,16 +10,17 @@ import {
 import { RiLinkedinLine } from 'react-icons/ri';
 
 import Contactinfo from '../ResumeSections/Contactinfo';
-import { formatYearMonth } from '../../utils/helper';
 import EducationInfo from '../ResumeSections/EducationInfo';
 import LanguagesInfo from '../ResumeSections/LanguagesInfo';
 import WorkExperienceInfo from '../ResumeSections/WorkExperienceInfo';
 import ProjectsInfo from '../ResumeSections/ProjectsInfo';
 import SkillsInfo from '../ResumeSections/SkillsInfo';
 import CertificationInfo from '../ResumeSections/CertificationInfo';
+import { formatYearMonth } from '../../utils/helper';
 
 const DEFAULT_THEME = ['#ebfdff', '#a1f4fd', '#cefafe', '#d2b8db', '#4a5565'];
 
+// Simple Title component for section headers
 const Title = ({ text, color }) => (
     <div className="relative w-fit mb-2.5">
         <span
@@ -35,7 +36,6 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
     const [baseWidth, setBaseWidth] = useState(800);
     const [scale, setScale] = useState(1);
 
-    // Use fallback if no color palette provided
     const themeColor = useMemo(
         () => (colorPalette?.length ? colorPalette : DEFAULT_THEME),
         [colorPalette]
@@ -67,15 +67,14 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
                 transform: containerWidth > 0 ? `scale(${scale})` : 'none',
                 transformOrigin: 'top left',
                 width: containerWidth > 0 ? `${containerWidth}px` : '800px',
-                height: '1200px', // Optional: Replace with `auto` if dynamic height required
+                height: '1200px', // Optional: Replace with auto if dynamic height is desired
             }}>
             <div className="grid grid-cols-12 gap-8">
-                {/* Left Section */}
+                {/* LEFT SECTION */}
                 <div
                     className="col-span-4 py-10"
                     style={{ backgroundColor: themeColor[0] }}>
                     <div className="flex flex-col items-center px-2">
-                        {/* Profile Picture or Icon */}
                         <div
                             className="w-[100px] h-[100px] rounded-full flex items-center justify-center"
                             style={{ backgroundColor: themeColor[1] }}>
@@ -93,7 +92,6 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
                                 </div>
                             )}
                         </div>
-
                         <h2 className="text-xl font-bold mt-3">
                             {profileInfo.fullName}
                         </h2>
@@ -144,35 +142,38 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
                         </div>
 
                         {/* Education */}
-                        <div className="mt-5">
-                            <Title text="Education" color={themeColor[1]} />
-                            {education.map((edu, index) => (
-                                <EducationInfo
-                                    key={`education_${index}`}
-                                    degree={edu.degree}
-                                    institutionName={edu.institutionName}
-                                    duration={`${formatYearMonth(
-                                        edu.startDate
-                                    )} - ${formatYearMonth(edu.endDate)}`}
-                                />
-                            ))}
-                        </div>
+                        {education.length > 0 && (
+                            <div className="mt-5">
+                                <Title text="Education" color={themeColor[1]} />
+                                {education.map((edu, index) => (
+                                    <EducationInfo
+                                        key={`education_${index}`}
+                                        degree={edu.degree}
+                                        institutionName={edu.institutionName}
+                                        duration={`${formatYearMonth(
+                                            edu.startDate
+                                        )} - ${formatYearMonth(edu.endDate)}`}
+                                    />
+                                ))}
+                            </div>
+                        )}
 
                         {/* Languages */}
-                        <div className="mt-5">
-                            <Title text="Languages" color={themeColor[1]} />
-                            <LanguagesInfo
-                                languages={languages}
-                                accentColor={themeColor[3]}
-                                bgColor={themeColor[2]}
-                            />
-                        </div>
+                        {languages.length > 0 && (
+                            <div className="mt-5">
+                                <Title text="Languages" color={themeColor[1]} />
+                                <LanguagesInfo
+                                    languages={languages}
+                                    accentColor={themeColor[3]}
+                                    bgColor={themeColor[2]}
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
 
-                {/* Right Section */}
+                {/* RIGHT SECTION */}
                 <div className="col-span-8 pt-10 mr-10 pb-5">
-                    {/* Summary */}
                     {profileInfo.summary && (
                         <div>
                             <Title
@@ -180,12 +181,11 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
                                 color={themeColor[1]}
                             />
                             <p className="text-sm font-medium">
-                                {profileInfo.summary?.trim()}
+                                {profileInfo.summary.trim()}
                             </p>
                         </div>
                     )}
 
-                    {/* Work Experience */}
                     {workExperience.length > 0 && (
                         <div className="mt-4">
                             <Title
@@ -207,7 +207,6 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
                         </div>
                     )}
 
-                    {/* Projects */}
                     {projects.length > 0 && (
                         <div className="mt-4">
                             <Title text="Projects" color={themeColor[1]} />
@@ -224,7 +223,6 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
                         </div>
                     )}
 
-                    {/* Skills */}
                     {skills.length > 0 && (
                         <div className="mt-4">
                             <Title text="Skills" color={themeColor[1]} />
@@ -236,7 +234,6 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
                         </div>
                     )}
 
-                    {/* Certifications */}
                     {certifications.length > 0 && (
                         <div className="mt-5">
                             <Title
@@ -257,7 +254,6 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
                         </div>
                     )}
 
-                    {/* Interests */}
                     {interests.length > 0 &&
                         interests.some((i) => i?.trim()) && (
                             <div className="mt-5">

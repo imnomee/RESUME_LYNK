@@ -1,13 +1,9 @@
 // Import all available templates
 import TemplateOne from './TemplateOne';
-import TemplateTwo from './TemplateTwo';
-import TemplateThree from './TemplateThree';
 
 // Mapping of templateId to the actual template component
 const templates = {
     '01': TemplateOne,
-    '02': TemplateTwo,
-    '03': TemplateThree,
 };
 
 /**
