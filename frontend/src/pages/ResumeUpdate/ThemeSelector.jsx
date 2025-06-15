@@ -134,7 +134,7 @@ const ThemeSelector = ({
 
                 {/* Preview Panel */}
                 <div
-                    className="col-span-12 md:col-span-7 bg-white -mt-3"
+                    className="hidden lg:block col-span-12 md:col-span-7 bg-white -mt-3"
                     ref={resumeRef}>
                     <RenderResume
                         templateId={selectedTemplate.theme}

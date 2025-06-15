@@ -47,6 +47,7 @@ const ResumeHeader = ({
             <div className="flex items-center gap-4">
                 {/* Change theme button */}
                 <ActionButton
+                    tip="Customize your resume’s template and color palette."
                     text="Change Theme"
                     onClick={() => setOpenThemeSelector(true)}
                     icon={<LuPalette className="text-[16px]" />}
@@ -54,6 +55,7 @@ const ResumeHeader = ({
 
                 {/* Delete resume button - with red styling */}
                 <ActionButton
+                    tip="Permanently delete this resume. This action cannot be undone."
                     text="Delete Resume"
                     onClick={confirmDelete}
                     icon={<LuTrash2 className="text-[16px]" />}
@@ -62,6 +64,7 @@ const ResumeHeader = ({
 
                 {/* Print preview button */}
                 <ActionButton
+                    tip="Preview and print your resume, or download it as a PDF."
                     text="Print Preview"
                     onClick={() => setOpenPreviewModaal(true)}
                     icon={<LuPrinter className="text-[16px]" />}
