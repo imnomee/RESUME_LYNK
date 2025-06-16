@@ -43,7 +43,6 @@ const TemplateTwo = ({ resumeData, colorPalette, containerWidth }) => {
     };
 
     const ContactInfo = ({
-        title,
         location,
         email,
         phone,
@@ -52,25 +51,89 @@ const TemplateTwo = ({ resumeData, colorPalette, containerWidth }) => {
         website,
     }) => {
         return (
-            <div className="contactInfo flex gap-y-0.5 justify-around flex-wrap mt-5 text-sm">
-                {title && <Title title={title} />}
-                <p>{location}</p>
-                <p>{email}</p>
-                <p>{phone}</p>
+            <div
+                className="contactInfo flex flex-wrap items-center text-base tracking-wide justify-center mt-5 border-t border-b py-2"
+                style={{ borderColor: themeColor[1] }}>
+                {location && (
+                    <div className="flex items-center">
+                        <span>{location}</span>
+                    </div>
+                )}
+
+                {email && (
+                    <div className="flex items-center">
+                        <span
+                            className="w-1 h-1 mx-2 rounded-full"
+                            style={{
+                                backgroundColor: themeColor[4],
+                            }}></span>
+                        <span>{email}</span>
+                    </div>
+                )}
+
+                {phone && (
+                    <div className="flex items-center">
+                        <span
+                            className="w-1 h-1 mx-2 rounded-full"
+                            style={{
+                                backgroundColor: themeColor[4],
+                            }}></span>
+                        <span>{phone}</span>
+                    </div>
+                )}
+
                 {linkedIn && (
-                    <a href={linkedIn} target="_blank">
-                        {linkedIn}
-                    </a>
+                    <div className="flex items-center">
+                        <span
+                            className="w-1 h-1 mx-2 rounded-full"
+                            style={{
+                                backgroundColor: themeColor[4],
+                            }}></span>
+                        <span>
+                            <a
+                                href={linkedIn}
+                                target="_blank"
+                                rel="noopener noreferrer">
+                                {linkedIn}
+                            </a>
+                        </span>
+                    </div>
                 )}
+
                 {github && (
-                    <a href={github} target="_blank">
-                        {github}
-                    </a>
+                    <div className="flex items-center">
+                        <span
+                            className="w-1 h-1 mx-2 rounded-full"
+                            style={{
+                                backgroundColor: themeColor[4],
+                            }}></span>
+                        <span>
+                            <a
+                                href={github}
+                                target="_blank"
+                                rel="noopener noreferrer">
+                                {github}
+                            </a>
+                        </span>
+                    </div>
                 )}
+
                 {website && (
-                    <a href={website} target="_blank">
-                        {website}
-                    </a>
+                    <div className="flex items-center">
+                        <span
+                            className="w-1 h-1 mx-2 rounded-full"
+                            style={{
+                                backgroundColor: themeColor[4],
+                            }}></span>
+                        <span>
+                            <a
+                                href={website}
+                                target="_blank"
+                                rel="noopener noreferrer">
+                                {website}
+                            </a>
+                        </span>
+                    </div>
                 )}
             </div>
         );
@@ -132,7 +195,11 @@ const TemplateTwo = ({ resumeData, colorPalette, containerWidth }) => {
                                     <div className="font-semibold">
                                         {edu.degree}
                                     </div>
-                                    <div className="w-1 h-1 rounded-full bg-gray-500"></div>
+                                    <div
+                                        className="w-1 h-1 rounded-full"
+                                        style={{
+                                            backgroundColor: themeColor[4],
+                                        }}></div>
                                     <div className="text-sm font-semibold">
                                         {formatYearMonth(edu.startDate)} -{' '}
                                         {formatYearMonth(edu.endDate)}
@@ -141,6 +208,150 @@ const TemplateTwo = ({ resumeData, colorPalette, containerWidth }) => {
                             </div>
                         </div>
                     ))}
+            </div>
+        );
+    };
+
+    const Certifications = ({ title, certifications }) => {
+        return (
+            <div className="certifications mt-5">
+                <Title title={title} />
+                {certifications.length > 0 &&
+                    certifications.map((cert, index, arr) => (
+                        <div
+                            key={index}
+                            className={`my-2 flex flex-col gap-1 ${
+                                index !== arr.length - 1 ? 'border-b pb-2' : ''
+                            }`}
+                            style={{
+                                borderColor: themeColor[1],
+                            }}>
+                            <div className="">
+                                <div className="font-semibold">
+                                    {cert.title}
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="italic">{cert.issuer}</div>
+                                    <div
+                                        className="w-1 h-1 rounded-full"
+                                        style={{
+                                            backgroundColor: themeColor[4],
+                                        }}></div>
+                                    <div className="text-sm font-semibold">
+                                        {cert.year}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+            </div>
+        );
+    };
+
+    const Skills = ({ title, skills }) => {
+        return (
+            <div className="skills mt-5">
+                <Title title={title} />
+                <div className="flex flex-wrap">
+                    {skills.map((skill, index, arr) => (
+                        <div key={index} className="flex items-center">
+                            {skill.skillName}
+                            {index !== arr.length - 1 && (
+                                <div
+                                    className="w-1 h-1 rounded-full mx-2"
+                                    style={{
+                                        backgroundColor: themeColor[4],
+                                    }}></div>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    };
+
+    const Languages = ({ title, languages }) => {
+        return (
+            <div className="languages mt-5">
+                <Title title={title} />
+                <div className="flex flex-wrap">
+                    {languages.map((lang, index, arr) => (
+                        <div key={index} className="flex items-center">
+                            {lang.name}
+                            {index !== arr.length - 1 && (
+                                <div
+                                    className="w-1 h-1 rounded-full mx-2"
+                                    style={{
+                                        backgroundColor: themeColor[4],
+                                    }}></div>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    };
+
+    const Projects = ({ title, projects }) => {
+        return (
+            <div className="projects mt-5">
+                <Title title={title} />
+                {projects.length > 0 &&
+                    projects.map((project, index, arr) => (
+                        <div
+                            key={index}
+                            className={`my-2 flex flex-col gap-1 ${
+                                index !== arr.length - 1 ? 'border-b pb-2' : ''
+                            }`}
+                            style={{
+                                borderColor: themeColor[1],
+                            }}>
+                            <div className="">
+                                <span className="font-semibold">
+                                    {project.projectName}
+                                </span>
+                            </div>
+                            <div>{project.description}</div>
+                            {project.projectLink && (
+                                <a
+                                    href={project.projectLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer">
+                                    {project.projectLink}
+                                </a>
+                            )}
+                            {project.liveDemo && (
+                                <a
+                                    href={project.liveDemo}
+                                    target="_blank"
+                                    rel="noopener noreferrer">
+                                    {project.liveDemo}
+                                </a>
+                            )}
+                        </div>
+                    ))}
+            </div>
+        );
+    };
+
+    const Interests = ({ title, interests }) => {
+        return (
+            <div className="interests mt-5">
+                <Title title={title} />
+                <div className="flex flex-wrap">
+                    {interests.map((interest, index, arr) => (
+                        <div key={index} className="flex items-center">
+                            {interest}
+                            {index !== arr.length - 1 && (
+                                <div
+                                    className="w-1 h-1 rounded-full mx-2"
+                                    style={{
+                                        backgroundColor: themeColor[4],
+                                    }}></div>
+                            )}
+                        </div>
+                    ))}
+                </div>
             </div>
         );
     };
@@ -165,14 +376,30 @@ const TemplateTwo = ({ resumeData, colorPalette, containerWidth }) => {
                     <p className="italic font-medium mb-2">
                         {profileInfo.designation}
                     </p>
-                    <p className="text-sm">{profileInfo.summary}</p>
+                    <p className="text-base">{profileInfo.summary}</p>
                 </div>
                 <ContactInfo title={'Contact Info'} {...contactInfo} />
+                <Education title={'Education'} education={education} />
+                <Certifications
+                    title={'Certifications'}
+                    certifications={certifications}
+                />
                 <WorkExperience
                     title={'Experience'}
                     workExperience={workExperience}
                 />
-                <Education title={'Education'} education={education} />
+                <Projects title={'Projects'} projects={projects} />
+                {skills.length > 0 && (
+                    <Skills title={'Skills'} skills={skills} />
+                )}
+                <div className="skills-interests flex justify-between">
+                    {interests.length > 0 && (
+                        <Interests title={'Interests'} interests={interests} />
+                    )}
+                    {languages.length > 0 && (
+                        <Languages title={'Languages'} languages={languages} />
+                    )}
+                </div>
             </div>
         </div>
     );
