@@ -2,24 +2,30 @@ import { useEffect, useRef, useState, useMemo } from 'react';
 
 import { formatYearMonth } from '../../../utils/helper';
 
+// DEFAULT_THEME: Default color palette for the resume template.
+// The colors are: [background, primary, secondary, accent, text].
 const DEFAULT_THEME = ['#ebfdff', '#a1f4fd', '#cefafe', '#d2b8db', '#4a5565'];
 
 const TemplateTwo = ({ resumeData, colorPalette, containerWidth }) => {
     const resumeRef = useRef(null);
-    const [baseWidth, setBaseWidth] = useState(800);
     const [scale, setScale] = useState(1);
 
+    // themeColor: Memoized color palette.
+    // If a colorPalette is provided, use it; otherwise, use the DEFAULT_THEME.
+    // useMemo is used to prevent unnecessary re-renders when the colorPalette prop doesn't change.
     const themeColor = useMemo(
         () => (colorPalette?.length ? colorPalette : DEFAULT_THEME),
         [colorPalette]
     );
 
+    // useEffect: This effect calculates the scale of the resume based on the container width.
+    // It ensures that the resume scales properly to fit different screen sizes.
     useEffect(() => {
         const actualWidth = resumeRef.current?.offsetWidth || 800;
-        setBaseWidth(actualWidth);
         setScale(containerWidth / actualWidth);
     }, [containerWidth]);
 
+    // Destructuring resumeData with default values to avoid errors if a section is missing.
     const {
         profileInfo = {},
         contactInfo = {},
@@ -42,6 +48,34 @@ const TemplateTwo = ({ resumeData, colorPalette, containerWidth }) => {
         );
     };
 
+    // Generic component for displaying contact information items
+    const ContactInfoItem = ({ label, value, link }) => {
+        return (
+            value && (
+                <div className="flex items-center">
+                    <span
+                        className="w-1 h-1 mx-2 rounded-full"
+                        style={{
+                            backgroundColor: themeColor[4],
+                        }}></span>
+                    <span>
+                        {link ? (
+                            <a
+                                href={value}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label={`${label} Profile`}>
+                                {value}
+                            </a>
+                        ) : (
+                            value
+                        )}
+                    </span>
+                </div>
+            )
+        );
+    };
+
     const ContactInfo = ({
         location,
         email,
@@ -50,91 +84,17 @@ const TemplateTwo = ({ resumeData, colorPalette, containerWidth }) => {
         github,
         website,
     }) => {
+        // ContactInfo: Displays contact information.
         return (
             <div
                 className="contactInfo flex flex-wrap items-center text-base tracking-wide justify-center mt-5 border-t border-b py-2"
                 style={{ borderColor: themeColor[1] }}>
-                {location && (
-                    <div className="flex items-center">
-                        <span>{location}</span>
-                    </div>
-                )}
-
-                {email && (
-                    <div className="flex items-center">
-                        <span
-                            className="w-1 h-1 mx-2 rounded-full"
-                            style={{
-                                backgroundColor: themeColor[4],
-                            }}></span>
-                        <span>{email}</span>
-                    </div>
-                )}
-
-                {phone && (
-                    <div className="flex items-center">
-                        <span
-                            className="w-1 h-1 mx-2 rounded-full"
-                            style={{
-                                backgroundColor: themeColor[4],
-                            }}></span>
-                        <span>{phone}</span>
-                    </div>
-                )}
-
-                {linkedIn && (
-                    <div className="flex items-center">
-                        <span
-                            className="w-1 h-1 mx-2 rounded-full"
-                            style={{
-                                backgroundColor: themeColor[4],
-                            }}></span>
-                        <span>
-                            <a
-                                href={linkedIn}
-                                target="_blank"
-                                rel="noopener noreferrer">
-                                {linkedIn}
-                            </a>
-                        </span>
-                    </div>
-                )}
-
-                {github && (
-                    <div className="flex items-center">
-                        <span
-                            className="w-1 h-1 mx-2 rounded-full"
-                            style={{
-                                backgroundColor: themeColor[4],
-                            }}></span>
-                        <span>
-                            <a
-                                href={github}
-                                target="_blank"
-                                rel="noopener noreferrer">
-                                {github}
-                            </a>
-                        </span>
-                    </div>
-                )}
-
-                {website && (
-                    <div className="flex items-center">
-                        <span
-                            className="w-1 h-1 mx-2 rounded-full"
-                            style={{
-                                backgroundColor: themeColor[4],
-                            }}></span>
-                        <span>
-                            <a
-                                href={website}
-                                target="_blank"
-                                rel="noopener noreferrer">
-                                {website}
-                            </a>
-                        </span>
-                    </div>
-                )}
+                <ContactInfoItem label="Location" value={location} />
+                <ContactInfoItem label="Email" value={email} />
+                <ContactInfoItem label="Phone" value={phone} />
+                <ContactInfoItem label="LinkedIn" value={linkedIn} link />
+                <ContactInfoItem label="GitHub" value={github} link />
+                <ContactInfoItem label="Website" value={website} link />
             </div>
         );
     };
@@ -389,9 +349,7 @@ const TemplateTwo = ({ resumeData, colorPalette, containerWidth }) => {
                     workExperience={workExperience}
                 />
                 <Projects title={'Projects'} projects={projects} />
-                {skills.length > 0 && (
-                    <Skills title={'Skills'} skills={skills} />
-                )}
+                {skills.length > 0 && <Skills title={'Skills'} skills={skills} />}
                 <div className="skills-interests flex justify-between">
                     {interests.length > 0 && (
                         <Interests title={'Interests'} interests={interests} />
