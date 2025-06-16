@@ -1,10 +1,12 @@
 // Import all available templates
 
 import TemplateOne from './TemplateOne/TemplateOne';
+import TemplateTwo from './TemplateTwo/TemplateTwo';
 
 // Mapping of templateId to the actual template component
 const templates = {
     '01': TemplateOne,
+    '02': TemplateTwo, // Placeholder for additional templates
 };
 
 /**
